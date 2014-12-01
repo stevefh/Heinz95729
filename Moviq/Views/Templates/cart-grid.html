@@ -1,9 +1,16 @@
 ﻿<script id="t-cart-grid" type="text/html">
 
-    <h1>This is the shopping cart</h1>
-    <table class="table table-striped" ">
-        <tr>
-            <td>First product</td>
-        </tr>
-    </table>
+    <h2>Shopping Cart</h2>
+    <div class="cart-component">
+        <table class="table table-striped">
+            <tbody data-bind="foreach: { data: data.cart(), as: 'cartItem' }">
+                <tr data-bind="value: cartItem.uid">
+                    <td data-bind="html: cartItem.title"></td>
+                    <td data-bind="html: cartItem.price"></td>
+                    <td><button type="button" class="btn btn-danger">Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success">Checkout</button>
+    </div>
 </script>

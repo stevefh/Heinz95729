@@ -132,6 +132,7 @@
     <Content Include="Js\lib\sammy.min.js" />
     <Content Include="Js\models\book.js" />
     <Content Include="Js\models\books.js" />
+    <Content Include="Js\models\cartItem.js" />
     <Content Include="Js\models\cart.js" />
     <Content Include="Js\models\product.js" />
     <Content Include="Js\models\products.js" />
@@ -161,6 +162,7 @@
     <Content Include="Css\_variables.less" />
     <Content Include="Css\_products.less" />
     <Content Include="Js\test\sinon.extensions.js" />
+    <Content Include="Css\_cart.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
