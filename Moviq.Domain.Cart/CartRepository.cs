@@ -68,61 +68,8 @@ namespace Moviq.Domain.Cart
 
         public Task<IEnumerable<ICart>> Find(string searchFor)
         {
-            /*
-            // alternatively we could use the elasticsearch.NET option
-            // http://www.elasticsearch.org/guide/en/elasticsearch/client/net-api/current/_elasticsearch_net.html
-
-            var response = await restClient.ExecutePostTaskAsync(BuildSearchPostRequest(searchFor));
-            var result = JsonConvert.DeserializeObject<NoSqlSearchResult>(response.Content);
-            
-            if (result.hits == null || result.hits.hits == null || result.hits.hits.Count < 1)
-            {
-                return null;
-            }
-
-            List<string> keys = new List<string> { };
-
-            foreach (var item in result.hits.hits)
-            {
-                keys.Add(item._id);
-            }
-            
-            if (keys.Count > 1)
-                throw new Exception(locale.CartFetchFailure);
-
-            return Get(keys);
-             */
-             
-            // TODO: We are breaking Liskov Subsitution by not implementing this method!
-
             // http://localhost:8092/moviq/_design/dev_books/_view/books?stale=false&connection_timeout=60000&limit=20&skip=0
             throw new Exception(locale.LiskovSubstitutionInfraction);
-        }
-
-        private RestRequest BuildSearchPostRequest(string searchFor)
-        {
-            var request = new RestRequest(searchUrl, Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddBody(new
-            {
-                query = new
-                {
-                    query_string = new
-                    {
-                        query_string = new
-                        {
-                            query = searchFor
-                        }
-                    }
-                }
-            });
-
-            return request;
-
-            //var request = new RestRequest(searchUrl, Method.GET);
-            //request.AddParameter("q", searchFor);
-
-            //return request;
         }
 
         public bool Delete(string Guid)

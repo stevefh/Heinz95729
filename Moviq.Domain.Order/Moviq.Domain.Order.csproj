@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{34595BD6-B9CB-4E0D-8748-70B59A77093E}</ProjectGuid>
+    <ProjectGuid>{C75BCFD6-4E69-4AD6-A8C8-4A297F4BB0FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Moviq.Domain.Cart</RootNamespace>
-    <AssemblyName>Moviq.Domain.Cart</AssemblyName>
+    <RootNamespace>Moviq.Domain.Order</RootNamespace>
+    <AssemblyName>Moviq.Domain.Order</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,30 +30,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Couchbase, Version=1.3.10.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Couchbase">
       <HintPath>..\packages\CouchbaseNetClient.1.3.10\lib\net40\Couchbase.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Enyim.Caching, Version=1.3.10.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Enyim.Caching">
       <HintPath>..\packages\CouchbaseNetClient.1.3.10\lib\net40\Enyim.Caching.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=104.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.5.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,14 +52,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartDomain.cs" />
-    <Compile Include="CartFactory.cs" />
-    <Compile Include="CartRepository.cs" />
-    <Compile Include="ProductInfo.cs" />
+    <Compile Include="IOrder.cs" />
+    <Compile Include="IOrderDomain.cs" />
+    <Compile Include="IOrderRepository.cs" />
+    <Compile Include="ISingleOrder.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="OrderDomain.cs" />
+    <Compile Include="OrderFactory.cs" />
+    <Compile Include="OrderRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShoppingCart.cs" />
+    <Compile Include="SingleOrder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Moviq.Domain.Cart\Moviq.Domain.Cart.csproj">
+      <Project>{34595bd6-b9cb-4e0d-8748-70b59a77093e}</Project>
+      <Name>Moviq.Domain.Cart</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Moviq.Domain.Products\Moviq.Domain.Products.csproj">
       <Project>{2de192c4-f87f-4b04-91b9-09ec1d125746}</Project>
       <Name>Moviq.Domain.Products</Name>
@@ -78,10 +76,6 @@
       <Project>{b0708601-0cfa-411e-87b8-a9875aa00c9d}</Project>
       <Name>Moviq.Interfaces</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

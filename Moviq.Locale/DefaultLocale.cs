@@ -12,5 +12,7 @@
         public string CartSetFailure { get; set; }
 
         public string CartFetchFailure { get; set; }
+
+        public string OrderSetFailure { get; set; }
     }
 }

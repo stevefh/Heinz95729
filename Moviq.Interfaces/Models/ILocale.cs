@@ -13,5 +13,6 @@ namespace Moviq.Interfaces.Models
         string LiskovSubstitutionInfraction { get; set; }
         string CartSetFailure { get; set; }
         string CartFetchFailure { get; set; }
+        string OrderSetFailure { get; set; }
     }
 }

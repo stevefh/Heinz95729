@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moviq", "Moviq\Moviq.csproj", "{AD421F80-AA2D-47BA-AE13-82172052BA8D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C75BCFD6-4E69-4AD6-A8C8-4A297F4BB0FE} = {C75BCFD6-4E69-4AD6-A8C8-4A297F4BB0FE}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moviq.Interfaces", "Moviq.Interfaces\Moviq.Interfaces.csproj", "{B0708601-0CFA-411E-87B8-A9875AA00C9D}"
 EndProject
@@ -20,6 +23,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moviq.Domain.Auth.Tests", "Moviq.Domain.Auth.Tests\Moviq.Domain.Auth.Tests.csproj", "{F664A7E0-3D2C-49A1-9A10-AEE3F0E3F49C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moviq.Domain.Cart", "Moviq.Domain.Cart\Moviq.Domain.Cart.csproj", "{34595BD6-B9CB-4E0D-8748-70B59A77093E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moviq.Domain.Order", "Moviq.Domain.Order\Moviq.Domain.Order.csproj", "{C75BCFD6-4E69-4AD6-A8C8-4A297F4BB0FE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B0708601-0CFA-411E-87B8-A9875AA00C9D} = {B0708601-0CFA-411E-87B8-A9875AA00C9D}
+		{2DE192C4-F87F-4B04-91B9-09EC1D125746} = {2DE192C4-F87F-4B04-91B9-09EC1D125746}
+		{34595BD6-B9CB-4E0D-8748-70B59A77093E} = {34595BD6-B9CB-4E0D-8748-70B59A77093E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +73,10 @@ Global
 		{34595BD6-B9CB-4E0D-8748-70B59A77093E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34595BD6-B9CB-4E0D-8748-70B59A77093E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34595BD6-B9CB-4E0D-8748-70B59A77093E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75BCFD6-4E69-4AD6-A8C8-4A297F4BB0FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75BCFD6-4E69-4AD6-A8C8-4A297F4BB0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75BCFD6-4E69-4AD6-A8C8-4A297F4BB0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75BCFD6-4E69-4AD6-A8C8-4A297F4BB0FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

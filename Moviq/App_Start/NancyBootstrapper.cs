@@ -19,6 +19,7 @@
     using Nancy.Authentication.Forms;
     using Moviq.Domain.Auth;
     using Moviq.Domain.Cart;
+    using Moviq.Domain.Order;
 
     public class NancyBootstrapper : DefaultNancyBootstrapper
     {
@@ -102,6 +103,24 @@
             container.Register<IRepository<ICart>>((cntr, namedParams) =>
             {
                 return container.Resolve<ICartRepository>();
+            });
+
+            //new
+            container.Register<IOrderDomain, OrderDomain>().AsMultiInstance();
+            container.Register<IFactory<IOrder>, OrderFactory>();
+            container.Register<IOrderRepository>((cntr, namedParams) =>
+            {
+                return new OrderRepository(
+                    container.Resolve<IRepository<IProduct>>(),
+                    container.Resolve<IFactory<IOrder>>(),
+                    container.Resolve<ICouchbaseClient>(),
+                    container.Resolve<ILocale>(),
+                    new RestClient(),
+                    "http://localhost:9200/moviq/_search");
+            });
+            container.Register<IRepository<IOrder>>((cntr, namedParams) =>
+            {
+                return container.Resolve<IOrderRepository>();
             });
         }
 

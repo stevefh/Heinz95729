@@ -185,6 +185,7 @@
     <Compile Include="Api\BooksModule.cs" />
     <Compile Include="Api\CartModule.cs" />
     <Compile Include="Api\ExampleSecureModule.cs" />
+    <Compile Include="Api\OrderModule.cs" />
     <Compile Include="Api\SearchModule.cs" />
     <Compile Include="App_Start\NancyBootstrapper.cs" />
     <Compile Include="App_Start\OwinBootstrapper.cs" />
@@ -205,6 +206,10 @@
     <ProjectReference Include="..\Moviq.Domain.Cart\Moviq.Domain.Cart.csproj">
       <Project>{34595bd6-b9cb-4e0d-8748-70b59a77093e}</Project>
       <Name>Moviq.Domain.Cart</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moviq.Domain.Order\Moviq.Domain.Order.csproj">
+      <Project>{c75bcfd6-4e69-4ad6-a8c8-4a297f4bb0fe}</Project>
+      <Name>Moviq.Domain.Order</Name>
     </ProjectReference>
     <ProjectReference Include="..\Moviq.Domain.Products.Tests\Moviq.Domain.Products.Tests.csproj">
       <Project>{b760c36c-ecb0-4ba8-973e-76374c8403ff}</Project>

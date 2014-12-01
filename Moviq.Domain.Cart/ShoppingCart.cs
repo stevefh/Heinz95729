@@ -30,7 +30,7 @@ namespace Moviq.Domain.Cart
                 Products.Add(uid);
                 return true;
             }
-            if (!Products.Contains(uid))
+            else if (!Products.Contains(uid))
             {
                 Products.Add(uid);
                 return true;

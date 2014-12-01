@@ -1,4 +1,5 @@
-﻿using Moviq.Helpers;
+﻿using Moviq.Domain.Cart;
+using Moviq.Helpers;
 using Moviq.Interfaces;
 using Moviq.Interfaces.Models;
 using Moviq.Interfaces.Services;
@@ -26,7 +27,8 @@ namespace Moviq.Api
                 foreach (var productUid in cart.Products)
                 {
                     var product = products.Repo.Get(productUid);
-                    result.Add(new ProductInfo {
+                    result.Add(new ProductInfo
+                    {
                         Uid = product.Uid,
                         Title = product.Title,
                         Price = product.Price
@@ -61,13 +63,6 @@ namespace Moviq.Api
                 var cart = carts.Repo.Get(guid);
                 return helper.ToJson(cart);
             };
-        }
-
-        private class ProductInfo
-        {
-            public string Uid { get; set; }
-            public string Title { get; set; }
-            public decimal Price { get; set; }
         }
     }
 }
