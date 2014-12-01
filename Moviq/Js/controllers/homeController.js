@@ -3,7 +3,7 @@
 define('controllers/homeController', { init: function (routes, viewEngine, Products, Product) {
     "use strict";
 
-    var onSearch;
+    var onSearch, onCart;
     
     // GET /#/search/?q=searchterm
     // search for products
@@ -14,6 +14,13 @@ define('controllers/homeController', { init: function (routes, viewEngine, Produ
     routes.get('/', function (context) {
         viewEngine.setView({
             template: 't-empty',
+            message: 'hello word!'
+        });
+    });
+
+    routes.get('/#/cart', function (context) {
+        viewEngine.setView({
+            template: 't-cart-grid',
             message: 'hello word!'
         });
     });
@@ -39,8 +46,18 @@ define('controllers/homeController', { init: function (routes, viewEngine, Produ
         });
     };
 
+    onCart = function (context) {
+        return function () {
+            viewEngine.setView({
+                template: 't-cart-grid',
+                data: results
+            });
+        };
+    };
+
     return {
-        onSearch: onSearch
+        onSearch: onSearch,
+        onCart: onCart
     };
     
 }});
