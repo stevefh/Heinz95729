@@ -13,7 +13,7 @@ namespace Moviq.Api
 {
     public class CartModule : NancyModule
     {
-        public CartModule(ICartDomain carts, IModuleHelpers helper)
+        public CartModule(ICartDomain carts, IProductDomain products, IModuleHelpers helper)
         {
             this.Get["/api/cart"] = args =>
             {
@@ -22,8 +22,18 @@ namespace Moviq.Api
                 ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
                 string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
                 var cart = carts.Repo.Get(guid);
+                List<ProductInfo> result = new List<ProductInfo>();
+                foreach (var productUid in cart.Products)
+                {
+                    var product = products.Repo.Get(productUid);
+                    result.Add(new ProductInfo {
+                        Uid = product.Uid,
+                        Title = product.Title,
+                        Price = product.Price
+                    });
+                }
 
-                return helper.ToJson(cart);
+                return helper.ToJson(result);
             };
 
             this.Get["/api/cart/add"] = args =>
@@ -51,6 +61,13 @@ namespace Moviq.Api
                 var cart = carts.Repo.Get(guid);
                 return helper.ToJson(cart);
             };
+        }
+
+        private class ProductInfo
+        {
+            public string Uid { get; set; }
+            public string Title { get; set; }
+            public decimal Price { get; set; }
         }
     }
 }
