@@ -41,15 +41,16 @@ namespace Moviq.Domain.Order
 
         public IOrder Get(string guid)
         {
-            if (!KeyExists(String.Format(keyPattern, guid)))
-                return db.GetJson<Order>(String.Format(keyPattern, guid));
+            var result = db.GetJson<Order>(String.Format(keyPattern, guid));
+            if (result != null)
+                return result;
             else
                 return Set(new Order(Guid.Parse(guid)));
         }
 
-        public bool KeyExists(string Guid)
+        public bool KeyExists(string guid)
         {
-            return db.KeyExists(String.Format(keyPattern, Guid));
+            return db.KeyExists(String.Format(keyPattern, guid));
         }
 
         public IOrder Set(IOrder order)

@@ -13,7 +13,7 @@ namespace Moviq.Domain.Order
         public Order(Guid Guid)
         {
             this.Guid = Guid;
-            this.Orders = null;
+            this.Orders = new List<SingleOrder>();
             this._type = "order";
         }
 
@@ -49,11 +49,6 @@ namespace Moviq.Domain.Order
 
         public void AddOrder(SingleOrder singleOrder)
         {
-            if (Orders == null)
-            {
-                Orders = new List<SingleOrder>();
-            }
-
             Orders.Add(singleOrder);   
         }
     }

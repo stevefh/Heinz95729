@@ -12,7 +12,7 @@ namespace Moviq.Domain.Cart
         public ShoppingCart(Guid Guid)
         {
             this.Guid = Guid;
-            Products = null;
+            Products = new List<string>();
             _type = "cart";
         }
         public Guid Guid { get; set; }

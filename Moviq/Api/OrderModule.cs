@@ -30,7 +30,7 @@ namespace Moviq.Api
                 return helper.ToJson(order);
             };
 
-            // sample: api/order/add?q=[{"Uid":"before_go","Title":"One Last Thing I Go","Price":8.77}]
+            // sample: api/order/add?q=[{"Uid":"before_go","Title":"One Last Thing I Go","Price":8.77},{"Uid":"leave_you","Title":"This Is Where I Leave You: A Novel","Price":7.99}]
             this.Get["/api/order/add"] = args =>
             {
                 this.RequiresAuthentication();
@@ -54,7 +54,7 @@ namespace Moviq.Api
                 orders.Repo.AddOrder(guid, new SingleOrder 
                 {
                     Products = orderProducts,
-                    OrderDate = DateTime.Today,
+                    OrderDate = DateTime.Now,
                     TotalPrice = totalPrice
                 });
 

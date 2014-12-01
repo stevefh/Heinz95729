@@ -44,15 +44,16 @@ namespace Moviq.Domain.Cart
 
         public ICart Get(string guid)
         {
-            if (!KeyExists(String.Format(keyPattern, guid)))
-                return db.GetJson<ShoppingCart>(String.Format(keyPattern, guid));
+            var result = db.GetJson<ShoppingCart>(String.Format(keyPattern, guid));
+            if (result != null)
+                return result;
             else
                 return Set(new ShoppingCart(Guid.Parse(guid)));
         }
 
         public ICart Set(ICart cart)
         {
-            if (db.StoreJson(StoreMode.Set, String.Format(keyPattern, cart.Guid), cart))
+            if (db.StoreJson(StoreMode.Set, String.Format(keyPattern, cart.Guid.ToString()), cart))
             {
                 return Get(cart.Guid.ToString());
             }
