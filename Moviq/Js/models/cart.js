@@ -14,7 +14,9 @@ define('models/cart', {
 
         var Cart = function (cart) {
             var $this = this;
+            var total = 0;
             $this.cart = ko.observableArray();
+            $this.total = undefined;
             
 
             $this.addCartItem = function (cartItem) {
@@ -27,6 +29,7 @@ define('models/cart', {
                 }
 
                 $this.cart.push(cartItem);
+                total += cartItem.price();
             };
 
             $this.addCart = function (cart) {
@@ -43,6 +46,9 @@ define('models/cart', {
 
             if (cart) {
                 $this.addCart(cart);
+                $this.total = ko.computed(function () {
+                    return total.toFixed(2);
+                });;
             }
         };
 
