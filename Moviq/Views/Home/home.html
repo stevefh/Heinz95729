@@ -62,7 +62,7 @@
     @Partial['../templates/login.html']
     @Partial['../templates/register.html']
     @Partial['../templates/cart-grid.html']
-    
+    @Partial['../templates/payment-page.html']
     <!-- /templates -->
     
     <!-- js -->
@@ -73,6 +73,14 @@
     <script src="/js/lib/require.shim.js"></script>
     <script src="/js/lib/grid.js"></script>
     <script src="/js/compositionRoot.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
     <!-- /js -->
+
+    <script type="text/javascript">
+    // This identifies your website in the createToken call below
+    Stripe.setPublishableKey('pk_test_XTCnCpSPjzYL6y7xtp6jEcBg');
+    // ...
+    </script>
 </body>
 </html>
