@@ -10,7 +10,7 @@ namespace Moviq.Domain.Order
     public interface IOrder : IHelpCategorizeNoSqlData
     {
         Guid Guid { get; set; }
-        ICollection<SingleOrder> Orders { get; set; }
+        ICollection<ulong> Orders { get; set; }
 
         void AddOrder(SingleOrder singleOrder);
     }

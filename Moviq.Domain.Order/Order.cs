@@ -13,7 +13,7 @@ namespace Moviq.Domain.Order
         public Order(Guid Guid)
         {
             this.Guid = Guid;
-            this.Orders = new List<SingleOrder>();
+            this.Orders = new List<ulong>();
             this._type = "order";
         }
 
@@ -31,7 +31,7 @@ namespace Moviq.Domain.Order
 
         public Guid Guid { get; set; }
 
-        public ICollection<SingleOrder> Orders { get; set; }
+        public ICollection<ulong> Orders { get; set; }
 
         public string _type { get; set; }
         /*
@@ -49,7 +49,7 @@ namespace Moviq.Domain.Order
 
         public void AddOrder(SingleOrder singleOrder)
         {
-            Orders.Add(singleOrder);   
+            Orders.Add(singleOrder.OrderID);   
         }
     }
 }
