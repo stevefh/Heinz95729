@@ -21,7 +21,7 @@ namespace Moviq.Domain.Cart
         protected string keyPattern;
         protected string dataType;
 
-        public CartRepository(IRepository<IProduct> productRepository, IFactory<ICart> cartFactory, ICouchbaseClient db, ILocale locale, IRestClient restClient, string searchUrl)
+        public CartRepository(IRepository<IProduct> productRepository, IFactory<ICart> cartFactory, ICouchbaseClient db, ILocale locale)
         {
             this.productRepository = productRepository;
             this.productFactory = cartFactory;
@@ -29,17 +29,12 @@ namespace Moviq.Domain.Cart
             this.locale = locale;
             this.dataType = ((IHelpCategorizeNoSqlData)cartFactory.GetInstance())._type;
             this.keyPattern = String.Concat(this.dataType, "::{0}");
-            this.restClient = restClient;
-            this.searchUrl = searchUrl;
         }
 
         IRepository<IProduct> productRepository;
         IFactory<ICart> productFactory;
         ICouchbaseClient db;
         ILocale locale;
-        IRestClient restClient;
-        string searchUrl;
-        string query = "{ \"query\": { \"query_string\": { \"query_string\": { \"query\": \"{0}\" } } } }";
 
 
         public ICart Get(string guid)
@@ -69,7 +64,7 @@ namespace Moviq.Domain.Cart
 
         public Task<IEnumerable<ICart>> Find(string searchFor)
         {
-            // http://localhost:8092/moviq/_design/dev_books/_view/books?stale=false&connection_timeout=60000&limit=20&skip=0
+            // TODO: We are breaking Liskov Subsitution by not implementing this method!
             throw new Exception(locale.LiskovSubstitutionInfraction);
         }
 

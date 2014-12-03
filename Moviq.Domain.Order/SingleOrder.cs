@@ -29,3 +29,4 @@ namespace Moviq.Domain.Order
         public decimal TotalPrice { get; set; }
     }
 }
+                                                                         

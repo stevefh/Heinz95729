@@ -39,7 +39,7 @@
             IFactory<IProduct> productFactory = new ProductFactory();
             productRepo = new ProductNoSqlRepository(productFactory, db, locale, restClient,"http://localhost:9200/unittests/_search");
             //ICouchbaseClient db, IFactory<IUser> userFactory, ILocale locale
-            cartRepo = new CartRepository(productRepo, cartFactory, db, locale, restClient,"http://localhost:9200/unittests/_search");
+            cartRepo = new CartRepository(productRepo, cartFactory, db, locale);
         }
 
         IRepository<ICart> cartRepo;

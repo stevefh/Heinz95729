@@ -96,9 +96,7 @@
                     container.Resolve<IRepository<IProduct>>(),
                     container.Resolve<IFactory<ICart>>(),
                     container.Resolve<ICouchbaseClient>(),
-                    container.Resolve<ILocale>(),
-                    new RestClient(),
-                    "http://localhost:9200/moviq/_search");
+                    container.Resolve<ILocale>());
             });
             container.Register<IRepository<ICart>>((cntr, namedParams) =>
             {
@@ -114,9 +112,7 @@
                     container.Resolve<IRepository<IProduct>>(),
                     container.Resolve<IFactory<IOrder>>(),
                     container.Resolve<ICouchbaseClient>(),
-                    container.Resolve<ILocale>(),
-                    new RestClient(),
-                    "http://localhost:9200/moviq/_search");
+                    container.Resolve<ILocale>());
             });
             container.Register<IRepository<IOrder>>((cntr, namedParams) =>
             {

@@ -19,7 +19,7 @@ namespace Moviq.Domain.Order
         protected string keyPattern;
         protected string dataType;
 
-        public OrderRepository(IRepository<IProduct> productRepository, IFactory<IOrder> orderFactory, ICouchbaseClient db, ILocale locale, IRestClient restClient, string searchUrl)
+        public OrderRepository(IRepository<IProduct> productRepository, IFactory<IOrder> orderFactory, ICouchbaseClient db, ILocale locale)
         {
             this.productRepository = productRepository;
             this.productFactory = orderFactory;
@@ -27,17 +27,12 @@ namespace Moviq.Domain.Order
             this.locale = locale;
             this.dataType = ((IHelpCategorizeNoSqlData)orderFactory.GetInstance())._type;
             this.keyPattern = String.Concat(this.dataType, "::{0}");
-            this.restClient = restClient;
-            this.searchUrl = searchUrl;
         }
 
         IRepository<IProduct> productRepository;
         IFactory<IOrder> productFactory;
         ICouchbaseClient db;
         ILocale locale;
-        IRestClient restClient;
-        string searchUrl;
-        string query = "{ \"query\": { \"query_string\": { \"query_string\": { \"query\": \"{0}\" } } } }";
 
         public IOrder Get(string guid)
         {
@@ -88,17 +83,20 @@ namespace Moviq.Domain.Order
         public void AddOrder(string guid, SingleOrder singleOrder)
         {
             var orders = Get(guid);
-            SetSingleOrderID(singleOrder);
+            SetSingleOrderID(guid, singleOrder);
             orders.AddOrder(singleOrder);
 
             Set(orders);
         }
 
-        private void SetSingleOrderID(ISingleOrder singleOrder)
+        private bool SetSingleOrderID(string guid, ISingleOrder singleOrder)
         {
             var countKey = String.Format(keyPattern, "countOrder");
             var id = db.Increment(countKey, 1, 1);
+            var lookupById = String.Format(keyPattern, id.ToString());
             singleOrder.OrderID = id;
+
+            return db.StoreJson(StoreMode.Set, lookupById, singleOrder);
         }
 
     }
