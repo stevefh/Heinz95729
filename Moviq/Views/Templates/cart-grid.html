@@ -5,9 +5,11 @@
         <table class="table table-striped">
             <tbody data-bind="foreach: { data: data.cart(), as: 'cartItem' }">
                 <tr data-bind="value: cartItem.uid">
-                    <td data-bind="html: cartItem.title"></td>
-                    <td data-bind="html: cartItem.price"></td>
-                    <td><button type="button" class="btn btn-danger">Remove</button></td>
+                    <td><h5 data-bind="text: cartItem.title"></h5></td>
+                    <td><h5 data-bind="text: cartItem.price"></h5></td>
+                    <!--<td><button type="button" class="btn btn-danger" data-bind="click:cartItem.remove(),attr:{'data-item-uid':cartItem.uid}">Remove</button></td>-->
+                    <!--<td><button type="button" class="btn btn-danger" data-bind="click: data.removeTest()">Remove</button></td>-->
+                    <td><a data-bind="href:'/removeItem/?q='+cartItem.uid()"><input type="button" class="btn btn-danger" value="Remove"/></a></td>
                 </tr>
             </tbody>
         </table>

@@ -1,6 +1,8 @@
 /*global define, JSON*/
-define('controllers/booksController', { init: function ($, routes, viewEngine, Books, Book) {
+define('controllers/booksController', { init: function ($, routes, viewEngine, Books, Book, Cart) {
     "use strict";
+
+    var onAddItem;
 
     // GET /books/search/?q=searchterm
     // search for a book or books
@@ -62,5 +64,33 @@ define('controllers/booksController', { init: function ($, routes, viewEngine, B
 
         //});
     });
+
+    routes.get(/^\/#\/addToCart\/?/i, function (context) {
+        onAddItem(context);
+    });
+
+    onAddItem = function (context) {
+        return $.ajax({
+            url: '/api/cart/add/?q=' + context.params.q,
+            method: 'GET'
+        }).done(function (data) {
+            if (data.charAt(0) != '<') {
+                JSON.parse(data);
+                var results = new Cart(JSON.parse(data));
+                viewEngine.setView({
+                    template: 't-cart-grid',
+                    data: results
+                });
+            } else {
+                viewEngine.setView({
+                    template: 't-login'
+                });
+            }
+        });
+    }
+
+    return {
+        onAddItem:onAddItem
+    }
     
 }});

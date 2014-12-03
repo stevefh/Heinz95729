@@ -54,7 +54,9 @@
             </figcaption>
         </figure>
         <div class="purchase">
-            <button class="btn btn-success btn-buy" data-bind="currency: book.price"></button>
-        </div>        
+            <a data-bind="href:'/addToCart/?q='+book.uid()">
+                <input type="button" class="btn btn-success btn-buy" data-bind="value: '$'+book.price()"/>
+            </a>
+        </div> 
     </div>
 </script>

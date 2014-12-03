@@ -48,7 +48,19 @@ namespace Moviq.Api
                 carts.Repo.AddToCart(guid, uid);
 
                 var cart = carts.Repo.Get(guid);
-                return helper.ToJson(cart);
+                List<ProductInfo> result = new List<ProductInfo>();
+                foreach (var productUid in cart.Products)
+                {
+                    var product = products.Repo.Get(productUid);
+                    result.Add(new ProductInfo
+                    {
+                        Uid = product.Uid,
+                        Title = product.Title,
+                        Price = product.Price
+                    });
+                }
+
+                return helper.ToJson(result);
             };
 
             this.Get["/api/cart/remove"] = args =>
@@ -61,7 +73,19 @@ namespace Moviq.Api
                 carts.Repo.RemoveFromCart(guid, uid);
 
                 var cart = carts.Repo.Get(guid);
-                return helper.ToJson(cart);
+                List<ProductInfo> result = new List<ProductInfo>();
+                foreach (var productUid in cart.Products)
+                {
+                    var product = products.Repo.Get(productUid);
+                    result.Add(new ProductInfo
+                    {
+                        Uid = product.Uid,
+                        Title = product.Title,
+                        Price = product.Price
+                    });
+                }
+
+                return helper.ToJson(result);
             };
         }
     }
