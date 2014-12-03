@@ -81,6 +81,8 @@ define('controllers/booksController', { init: function ($, routes, viewEngine, B
                     template: 't-cart-grid',
                     data: results
                 });
+                viewEngine.headerVw.setCartCount(results.cart().length);
+                viewEngine.headerVw.showCartCount();
             } else {
                 viewEngine.setView({
                     template: 't-login'

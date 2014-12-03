@@ -15,13 +15,20 @@ define('views/viewEngine', { init: function ($, ko) {
         self.links = [];
         self.cartCount = ko.observable();
         self.showCartCount = ko.computed(function () {
+            console.log("show?");
             return self.cartCount() > 0;
         }, self);
         
         self.addToCart = function () {
             self.cartCount((self.cartCount() || 0) + 1);
         };
-        
+
+        self.setCartCount = function (count) {
+            console.log("set cart count:" + count);
+            if (count) {
+                self.cartCount(count);
+            }          
+        }
         self.subtractFromCart = function () {
             var count = (self.cartCount() || 1) - 1;
             

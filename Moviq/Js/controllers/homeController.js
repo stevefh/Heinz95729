@@ -55,6 +55,7 @@ define('controllers/homeController', {
                         template: 't-cart-grid',
                         data: results
                     });
+                    viewEngine.headerVw.subtractFromCart();
                 } else {
                     viewEngine.setView({
                         template: 't-login'
@@ -98,6 +99,7 @@ define('controllers/homeController', {
                         template: 't-cart-grid',
                         data: results
                     });
+                    viewEngine.headerVw.setCartCount(results.cart().length);
                 } else {
                     viewEngine.setView({
                         template: 't-login'
