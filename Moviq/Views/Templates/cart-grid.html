@@ -1,5 +1,4 @@
 ﻿<script id="t-cart-grid" type="text/html">
-
     <h2>Shopping Cart</h2>
     <div class="cart-component">
         <table class="table table-striped">
@@ -12,8 +11,10 @@
             </tbody>
         </table>
         <h3>Total: $<span id="cart-total" data-bind="html: data.total(), value: data.total()"></span></h3>
-        <a href="/payment">
-            <input type="button" id="btnPayment" class="btn btn-success" value="Payment" />
-        </a>
-</div>
+ 
+        <form action="/#/payment" method="post" role="form">
+            <input type="hidden" name="total_price" data-bind="value: data.total()" />
+            <button class="btn btn-success" type="submit">Checkout</button>
+        </form>
+    </div>
 </script>

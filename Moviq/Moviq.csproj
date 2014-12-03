@@ -121,8 +121,10 @@
     <Content Include="Js\config.js" />
     <Content Include="Js\controllers\authController.js" />
     <Content Include="Js\controllers\booksController.js" />
+    <Content Include="Js\controllers\cartController.js" />
     <Content Include="Js\controllers\homeController.js" />
     <Content Include="Js\controllers\profileController.js" />
+    <Content Include="Js\controllers\StripeContoller.js" />
     <Content Include="Js\lib\grid.js" />
     <Content Include="Js\lib\ko.binders.js" />
     <Content Include="Js\lib\modernizr.custom.js" />

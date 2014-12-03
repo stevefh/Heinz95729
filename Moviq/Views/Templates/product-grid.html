@@ -12,7 +12,10 @@
                         <h3><a data-bind="text: product.title, href: product.detailsLink"></a></h3>
                         <div class="description" data-bind="html: product.description"></div>
                         <div class="overlay"></div>
-                        <a class="buy-now" href="javascript:void(0);" data-bind="currency: product.price"></a>
+                        <form action="/api/cart/add" method="post" role="form">
+                            <input type="hidden" name="uid" data-bind="value: product.uid" />
+                            <input class="buy-now" data-bind="value: product.price" type="submit" />
+                        </form>
                     </div>
                 </div>
             </div>

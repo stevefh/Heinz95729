@@ -27,6 +27,13 @@ define('controllers/homeController', {
             onCart(context);
         });
 
+        routes.post(/^\/api\/cart\/add\/?/i, function (context) {
+            return $.ajax({
+                url: '/api/cart/add' + context.params.q,
+                method: 'POST'
+            });
+        });
+
         onSearch = function (context) {
             return $.ajax({
                 url: '/api/search/?q=' + context.params.q,
@@ -68,11 +75,7 @@ define('controllers/homeController', {
             });
         };
 
-        routes.get('/payment', function () {
-            routes.navigate('/payment/?q=' + $('#cart-Total').val());
-        });
-
-        routes.get(/^\/payment\/?/i, function (context) {
+        routes.post(/^\/#\/payment\/?/i, function (context) {
             onPayment(context);
         });
 
