@@ -32,14 +32,13 @@ define('controllers/homeController', {
             onCart(context);
         });
 
-<<<<<<< HEAD
         routes.post(/^\/api\/cart\/add\/?/i, function (context) {
             return $.ajax({
                 url: '/api/cart/add' + context.params.q,
                 method: 'POST'
             });
         });
-=======
+
         onRemoveItem = function (context) {
             //console.log("q:" + context.params.q);
             //cart.removeTest(context.params.q);
@@ -63,7 +62,6 @@ define('controllers/homeController', {
                 }
             });
         }
->>>>>>> origin/shopping-cart
 
         onSearch = function (context) {
             return $.ajax({
