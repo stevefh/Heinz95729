@@ -5,14 +5,14 @@
 /*globals require, define*/
 require(['routeEngine', 'views/viewEngine', 'config', 'utils',
          'controllers/homeController', 'controllers/booksController',
-         'controllers/authController', 'controllers/profileController',
+         'controllers/authController', 'controllers/profileController', 'controllers/cartController',
          'models/product', 'models/products', 'models/book', 'models/books',
          'models/cart', 'models/cartItem',
          'views/headerVw',
          'jquery', 'ko', 'lib/ko.binders', 'sammy'],
         function (routeEngineCtor, viewEngineCtor, configCtor, utilsCtor,
                    homeControllerCtor, booksControllerCtor,
-                   authControllerCtor, profileControllerCtor,
+                   authControllerCtor, profileControllerCtor, cartControllerCtor,
                    ProductCtor, ProductsCtor, BookCtor, BooksCtor, CartCtor, CartItemCtor,
                    headerVwCtor,
                    $, ko, koBinders, sammy) {
@@ -31,7 +31,8 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
             homeController,
             booksController,
             authController,
-            profileController;
+            profileController,
+            cartController;
             
         // initialize ko binding extensions
         koBinders.init($, ko);
@@ -61,10 +62,11 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
         
         //region CONTROLLERS  =================================================================
         (function () {
-            booksController = booksControllerCtor.init($, routeEngine, viewEngine, Books, Book);
+            booksController = booksControllerCtor.init($, routeEngine, viewEngine, Books, Book, Cart);
             homeController = homeControllerCtor.init(routeEngine, viewEngine, Products, Product, Cart, CartItem);
             authController = authControllerCtor.init($, routeEngine, viewEngine);
             profileController = profileControllerCtor.init($, routeEngine, viewEngine);
+            cartController = cartControllerCtor.init($, routeEngine, viewEngine);
         }());
         //endregion CONTROLLERS
             

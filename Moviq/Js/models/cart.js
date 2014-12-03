@@ -21,7 +21,7 @@ define('models/cart', {
 
             $this.addCartItem = function (cartItem) {
                 if (!cartItem) {
-                    throw new Error('Argument Exception: the argument, cartItem, must be defined to add a product');
+                    throw new Error('Argument Exception: the argument, cartItem, must be defined to add a cartItem');
                 }
 
                 if (!(cartItem instanceof CartItem)) {
@@ -44,11 +44,59 @@ define('models/cart', {
                 }
             };
 
+            //$this.setCartItem = function (cartItem) {
+            //    if (!cartItem) {
+            //        throw new Error('Argument Exception: the argument, cartItem, must be defined to set a cartItem');
+            //    }
+
+            //    if (!(cartItem instanceof CartItem)) {
+            //        cartItem = new CartItem(cartItem);
+            //    }
+
+            //    cartItem.setCart(this);
+            //};
+
+            //$this.setCart = function (cart) {
+            //    if (!cart) {
+            //        throw new Error('Argument Exception: the argument, cart, must be defined to set cart');
+            //    }
+            //    var i = 0;
+
+            //    for (i; i < cart.length; i++) {
+            //        $this.setCartItem(cart[i],cart);
+            //    }
+            //}
+
             if (cart) {
                 $this.addCart(cart);
                 $this.total = ko.computed(function () {
                     return total.toFixed(2);
-                });;
+                });
+                $this.test = total;
+            }
+
+            //$this.removeCartItem = function (cartItem) {
+            //    if (!cartItem) {
+            //        throw new Error('Argument Exception: the argument, cartItem, must be defined to remove a');
+            //    }
+            //    if (!(cartItem instanceof CartItem)) {
+            //        cartItem = new CartItem(cartItem);
+            //    }
+
+            //    $this.cart.remove(cartItem);
+            //}
+            $this.removeTest = function (uid) {
+                console.log("removeTest:" + uid);
+                cart = $this.cart();
+                var i = 0;
+
+                for (i; i < cart.length; i++) {
+                    console.log(cart[i].uid);
+                    if (cart[i].uid() == uid) {
+                        $this.cart.remove(cart[i]);
+                    }
+                }
+                console.log("cart length"+cart.length);
             }
         };
 

@@ -10,6 +10,9 @@ define('models/cartItem', {
 
         var CartItem = function (cartItem) {
             var $this = this;
+            $this.cart = undefined;
+            var c = undefined;
+            
 
             $this.setCartItemData = function (cartItem, cartItemData) {
                 if (!cartItem) {
@@ -26,9 +29,32 @@ define('models/cartItem', {
 
             if (cartItem) {
                 $this.setCartItemData($this, cartItem);
-            }
+            };
+
+            //$this.setCart = function (cart) {
+            //    if (!cart) {
+            //        throw new Error('cannot find cart to set the cart for cartItem');
+            //    }
+                
+            //    $this.cart = cart;
+            //    console.log("setCart:" + $this.cart.test);
+            //    c = cart;
+            //}
+            //$this.remove = function () {
+            //    console.log("remove:" + $this.cart.test);
+            //    cartItem.cart.removeCartItem(cartItem);
+            //}
         };
 
         return CartItem;
     }
+    //remove:function () {
+    //    $this.cart.removeCartItem($this);
+    //},
+    //setCart:function (cart) {
+    //    if (!cart) {
+    //        throw new Error('cannot find cart to set the cart for cartItem');
+    //    }
+    //    cartItem.cart = cart;
+    //}
 });
