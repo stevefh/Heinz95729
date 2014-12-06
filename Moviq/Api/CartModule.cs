@@ -43,7 +43,7 @@ namespace Moviq.Api
                     {
                         result.Add(new ProductInfo
                         {
-                            Uid = product.Uid,
+                            Uid = productUid,
                             Title = null,
                             Price = 0
                         });
