@@ -16,6 +16,18 @@ namespace Moviq.Api
     {
         public CartModule(ICartDomain carts, IProductDomain products, IModuleHelpers helper)
         {
+            this.Post["/api/cart/add"] = args =>
+            {
+                this.RequiresAuthentication();
+
+                var uid = (string)this.Request.Form.uid;
+                ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
+                string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
+                carts.Repo.AddToCart(guid, uid);
+
+                return Response.AsRedirect("/#/cart");
+            }; 
+
             this.Get["/api/cart"] = args =>
             {
                 this.RequiresAuthentication();
@@ -27,12 +39,24 @@ namespace Moviq.Api
                 foreach (var productUid in cart.Products)
                 {
                     var product = products.Repo.Get(productUid);
-                    result.Add(new ProductInfo
+                    if (product == null)
                     {
-                        Uid = product.Uid,
-                        Title = product.Title,
-                        Price = product.Price
-                    });
+                        result.Add(new ProductInfo
+                        {
+                            Uid = product.Uid,
+                            Title = null,
+                            Price = 0
+                        });
+                    }
+                    else
+                    {
+                        result.Add(new ProductInfo
+                        {
+                            Uid = product.Uid,
+                            Title = product.Title,
+                            Price = product.Price
+                        });
+                    }
                 }
 
                 return helper.ToJson(result);
@@ -51,12 +75,25 @@ namespace Moviq.Api
                 foreach (var productUid in cart.Products)
                 {
                     var product = products.Repo.Get(productUid);
-                    result.Add(new ProductInfo
+                    if (product == null)
                     {
-                        Uid = product.Uid,
-                        Title = product.Title,
-                        Price = product.Price
-                    });
+                        result.Add(new ProductInfo
+                        {
+                            Uid = product.Uid,
+                            Title = null,
+                            Price = 0
+                        });
+                    }
+                    else
+                    {
+                        result.Add(new ProductInfo
+                        {
+                            Uid = product.Uid,
+                            Title = product.Title,
+                            Price = product.Price
+                        });
+                    }
+                    
                 }
                 return helper.ToJson(result);
             };
@@ -84,17 +121,7 @@ namespace Moviq.Api
                 return helper.ToJson(result);
             };
 
-            this.Post["/api/cart/add"] = args =>
-            {
-                this.RequiresAuthentication();
-
-                var uid = (string)this.Request.Form.uid;
-                ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
-                string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
-                carts.Repo.AddToCart(guid, uid);
-
-                return Response.AsRedirect("/#/cart");
-            }; 
+            
         }
     }
 }
