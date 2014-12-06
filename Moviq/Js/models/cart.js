@@ -1,7 +1,7 @@
 /*jslint plusplus: true*/
 /*global define*/
 define('models/cart', {
-    init: function (ko, CartItem) {
+    init: function (ko, viewEngine, CartItem) {
         "use strict";
 
         if (!ko) {
@@ -86,17 +86,32 @@ define('models/cart', {
             //    $this.cart.remove(cartItem);
             //}
             $this.removeTest = function (uid) {
+                console.log("removeTest!");
+                // var uid = child.uid();
                 console.log("removeTest:" + uid);
-                cart = $this.cart();
-                var i = 0;
 
-                for (i; i < cart.length; i++) {
-                    console.log(cart[i].uid);
-                    if (cart[i].uid() == uid) {
-                        $this.cart.remove(cart[i]);
+                $.ajax({
+                    url: '/api/cart/remove/?q=' + uid,
+                    method: 'GET'
+                }).done(function (data) {
+                    if (data.charAt(0) != '<') {
+                        cart = $this.cart();
+
+                        var i = 0;
+
+                        for (i; i < cart.length; i++) {
+                            console.log(cart[i].uid);
+                            if (cart[i].uid() == uid) {
+                                $this.cart.remove(cart[i]);
+                            }
+                        }
+                        console.log("cart length" + cart.length);
+                        viewEngine.headerVw.subtractFromCart();
+                    } else {
+                        alert("delete failed!");
                     }
-                }
-                console.log("cart length"+cart.length);
+                });
+                
             }
         };
 

@@ -24,6 +24,9 @@ define('models/cartItem', {
                 cartItem.uid = ko.observable(cartItemData.uid);
                 cartItem.title = ko.observable(cartItemData.title || undefined);
                 cartItem.price = ko.observable(cartItemData.price || undefined);
+                cartItem.removeLink = ko.computed(function () {
+                    return "remove/q=" + cartItem.uid();
+                });
 
             };
 

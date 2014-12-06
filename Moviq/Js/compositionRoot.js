@@ -56,17 +56,17 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
             Book = BookCtor.init(ko, Product);
             Books = BooksCtor.init(ko, Book);
             CartItem = CartItemCtor.init(ko);
-            Cart = CartCtor.init(ko, CartItem);        
+            Cart = CartCtor.init(ko, viewEngine, CartItem);
         }());
         //endregion MODELS
         
         //region CONTROLLERS  =================================================================
         (function () {
             booksController = booksControllerCtor.init($, routeEngine, viewEngine, Books, Book, Cart);
-            homeController = homeControllerCtor.init(routeEngine, viewEngine, Products, Product, Cart, CartItem);
+            homeController = homeControllerCtor.init(routeEngine, viewEngine, Products, Product, Cart);
             authController = authControllerCtor.init($, routeEngine, viewEngine);
             profileController = profileControllerCtor.init($, routeEngine, viewEngine);
-            cartController = cartControllerCtor.init($, routeEngine, viewEngine);
+            cartController = cartControllerCtor.init($, routeEngine, viewEngine,Cart);
         }());
         //endregion CONTROLLERS
             

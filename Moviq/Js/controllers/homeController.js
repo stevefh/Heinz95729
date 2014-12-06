@@ -1,13 +1,11 @@
 /*global define, JSON*/
 
 define('controllers/homeController', {
-    init: function (routes, viewEngine, Products, Product, Cart, CartItem) {
+    init: function (routes, viewEngine, Products, Product, Cart) {
         "use strict";
 
 
         var onSearch, onCart, onPayment, onStripeSubmit;
-        var onRemoveItem;
-        var cart;
 
 
 
@@ -17,9 +15,7 @@ define('controllers/homeController', {
             onSearch(context);
         });
 
-        routes.get(/^\/#\/removeItem\/?/i, function (context) {
-            onRemoveItem(context);
-        });
+        
 
         routes.get('/', function (context) {
             viewEngine.setView({
@@ -39,30 +35,7 @@ define('controllers/homeController', {
             });
         });
 
-        onRemoveItem = function (context) {
-            //console.log("q:" + context.params.q);
-            //cart.removeTest(context.params.q);
-            //return true;
-            return $.ajax({
-                url: '/api/cart/remove/?q=' + context.params.q,
-                method: 'GET'
-            }).done(function (data) {
-                if (data.charAt(0) != '<') {
-                    JSON.parse(data);
-                    var results = new Cart(JSON.parse(data));
-                    cart = results;
-                    viewEngine.setView({
-                        template: 't-cart-grid',
-                        data: results
-                    });
-                    viewEngine.headerVw.subtractFromCart();
-                } else {
-                    viewEngine.setView({
-                        template: 't-login'
-                    });
-                }
-            });
-        }
+        
 
         onSearch = function (context) {
             return $.ajax({
@@ -94,12 +67,12 @@ define('controllers/homeController', {
                 if (data.charAt(0) != '<') {
                     JSON.parse(data);
                     var results = new Cart(JSON.parse(data));
-                    cart = results;
+                    //cart = results;
                     viewEngine.setView({
                         template: 't-cart-grid',
                         data: results
                     });
-                    viewEngine.headerVw.setCartCount(results.cart().length);
+                    viewEngine.headerVw.cartCount(results.cart().length);
                 } else {
                     viewEngine.setView({
                         template: 't-login'
@@ -150,8 +123,6 @@ define('controllers/homeController', {
         return {
             onSearch: onSearch,
             onCart: onCart,
-            onRemoveItem: onRemoveItem,
-            cart: cart,
             onPayment: onPayment,
             onStripeSubmit: onStripeSubmit
         };

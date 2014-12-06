@@ -1,4 +1,4 @@
-﻿<script id="t-cart-grid" type="text/html">
+﻿<script id="t-order-grid" type="text/html">
     <h2>Shopping Cart</h2>
     <div class="cart-component">
         <table class="table table-striped">
@@ -13,10 +13,5 @@
             </tbody>
         </table>
         <h3>Total: $<span id="cart-total" data-bind="html: data.total(), value: data.total(),click: function(){data.removeTest('sth');} "></span></h3>
- 
-        <form action="/#/payment" method="post" role="form">
-            <input type="hidden" name="total_price" data-bind="value: data.total()" />
-            <button class="btn btn-success" type="submit">Checkout</button>
-        </form>
     </div>
 </script>
