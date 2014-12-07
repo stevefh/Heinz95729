@@ -81,13 +81,36 @@ define('controllers/homeController', {
             });
         };
 
-        routes.post(/^\/#\/payment\/?/i, function (context) {
+        routes.get(/^\/#\/payment\/?/i, function (context) {
             onPayment(context);
         });
 
         onPayment = function (context) {
-            viewEngine.setView({
-                template: 't-payment-info'
+            return  $.ajax({
+                url: '/api/cart',
+                method: 'GET'
+            }).done(function (data) {
+                if (data.charAt(0) != '<') {
+                    JSON.parse(data);
+                    var results = new Cart(JSON.parse(data));
+                    //cart = results;
+                    if (results.message() == "") {
+                        viewEngine.setView({
+                            template: 't-payment-info',
+                            data: results
+                        });
+                    } else {
+                        viewEngine.setView({
+                            template: 't-cart-grid',
+                            data: results
+                        });
+                    }         
+                    viewEngine.headerVw.cartCount(results.cart().length);
+                } else {
+                    viewEngine.setView({
+                        template: 't-login'
+                    });
+                }
             });
         }
 

@@ -22,6 +22,9 @@ define('models/cart', {
             $this.message = ko.computed(function () {
                 return "";
             });
+            $this.cartData = ko.computed(function () {
+                return cartData;
+            });
 
 
             $this.addCartItem = function (cartItem) {

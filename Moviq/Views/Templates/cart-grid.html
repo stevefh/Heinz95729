@@ -13,11 +13,10 @@
                 </tr>
             </tbody>
         </table>
-        <h3>Total: $<span id="cart-total" data-bind="html: data.total(), value: data.total(),click: function(){data.removeTest('sth');} "></span></h3>
+        <h3>Total: $<span id="cart-total" data-bind="text: data.total()"></span></h3>
  
-        <form action="/#/payment" method="post" role="form">
-            <input type="hidden" name="total_price" data-bind="value: data.total()" />
-            <button class="btn btn-success" type="submit">Checkout</button>
-        </form>
+        <a href="/#/payment">
+            <input class="btn btn-success" type="button" value="Checkout" />
+        </a>
     </div>
 </script>

@@ -1,5 +1,17 @@
 ﻿<script id="t-payment-info" type="text/html">
 
+    <h3>Order Summary</h3>    
+    <table class="table table-condensed">
+        <tbody data-bind="foreach: { data: data.cart(), as: 'cartItem' }">
+            <tr data-bind="value: cartItem.uid">
+                <td><h5 data-bind="text: cartItem.title"></h5></td>
+                <td><h5 data-bind="text: cartItem.price"></h5></td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Total: $<span id="order-total" data-bind="text: data.total()"></span></h4>
+    <br />
+    <br />
         <h1></h1>
         <form action="" method="POST" id="payment-form">
 
