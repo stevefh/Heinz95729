@@ -115,7 +115,7 @@ define('controllers/homeController', {
                         template: 't-cart-grid',
                         data: results
                     });
-                    viewEngine.headerVw.cartCount(results.cart().length);
+                    // viewEngine.headerVw.cartCount(results.cart().length);
                 } else {
                     viewEngine.setView({
                         template: 't-login'

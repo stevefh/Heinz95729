@@ -150,6 +150,8 @@
     <Content Include="Js\models\books.js" />
     <Content Include="Js\models\cartItem.js" />
     <Content Include="Js\models\cart.js" />
+    <Content Include="Js\models\order.js" />
+    <Content Include="Js\models\orders.js" />
     <Content Include="Js\models\product.js" />
     <Content Include="Js\models\products.js" />
     <Content Include="Js\test\chai.js" />
