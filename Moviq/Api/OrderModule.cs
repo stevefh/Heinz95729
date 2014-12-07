@@ -68,8 +68,16 @@ namespace Moviq.Api
                     TotalPrice = totalPrice
                 });
 
-                var order = orders.Repo.Get(guid); 
-                return helper.ToJson(order);
+                var order = orders.Repo.Get(guid);
+                List<ISingleOrder> res = new List<ISingleOrder>();
+
+                foreach (var orderID in order.Orders)
+                {
+                    var singleOrder = orders.Repo.GetOrderByID(orderID);
+                    res.Add(singleOrder);
+                }
+
+                return helper.ToJson(res);
             };
         }
     }
