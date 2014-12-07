@@ -23,7 +23,7 @@ define('models/cart', {
                 return "";
             });
             $this.cartData = ko.computed(function () {
-                return cartData;
+                return JSON.stringify(cart);
             });
 
 

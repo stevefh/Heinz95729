@@ -10,6 +10,10 @@
         </tbody>
     </table>
     <h4>Total: $<span id="order-total" data-bind="text: data.total()"></span></h4>
+    <form action="/#/create-order-test" method="post" id="test-create-order-form">
+        <input type="hidden" name="orderData" data-bind="value:data.cartData()"/>
+        <input type="submit" value="test create order" class="btn btn-success"/>
+    </form>
     <br />
     <br />
         <h1></h1>

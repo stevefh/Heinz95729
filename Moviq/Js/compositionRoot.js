@@ -7,13 +7,14 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
          'controllers/homeController', 'controllers/booksController',
          'controllers/authController', 'controllers/profileController', 'controllers/cartController',
          'models/product', 'models/products', 'models/book', 'models/books',
-         'models/cart', 'models/cartItem',
+         'models/cart', 'models/cartItem', 'models/order', 'models/orders',
          'views/headerVw',
          'jquery', 'ko', 'lib/ko.binders', 'sammy'],
         function (routeEngineCtor, viewEngineCtor, configCtor, utilsCtor,
                    homeControllerCtor, booksControllerCtor,
                    authControllerCtor, profileControllerCtor, cartControllerCtor,
                    ProductCtor, ProductsCtor, BookCtor, BooksCtor, CartCtor, CartItemCtor,
+                   OrderCtor, OrdersCtor,
                    headerVwCtor,
                    $, ko, koBinders, sammy) {
         "use strict";
@@ -28,6 +29,8 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
             Books,
             Cart,
             CartItem,
+            Order,
+            Orders,
             homeController,
             booksController,
             authController,
@@ -57,13 +60,15 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
             Books = BooksCtor.init(ko, Book);
             CartItem = CartItemCtor.init(ko);
             Cart = CartCtor.init(ko, viewEngine, CartItem);
+            Order = OrderCtor.init(ko, Products);
+            Orders = OrdersCtor.init(ko, Order);
         }());
         //endregion MODELS
         
         //region CONTROLLERS  =================================================================
         (function () {
             booksController = booksControllerCtor.init($, routeEngine, viewEngine, Books, Book, Cart);
-            homeController = homeControllerCtor.init(routeEngine, viewEngine, Products, Product, Cart);
+            homeController = homeControllerCtor.init(routeEngine, viewEngine, Products, Product, Cart, Orders);
             authController = authControllerCtor.init($, routeEngine, viewEngine);
             profileController = profileControllerCtor.init($, routeEngine, viewEngine);
             cartController = cartControllerCtor.init($, routeEngine, viewEngine,Cart);

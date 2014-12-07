@@ -1,11 +1,12 @@
 /*global define, JSON*/
 
 define('controllers/homeController', {
-    init: function (routes, viewEngine, Products, Product, Cart) {
+    init: function (routes, viewEngine, Products, Product, Cart, Orders) {
         "use strict";
 
 
         var onSearch, onCart, onPayment, onStripeSubmit;
+        var onOrders;
 
 
 
@@ -35,6 +36,49 @@ define('controllers/homeController', {
             });
         });
 
+        routes.get(/^\/#\/orders/, function (context) {
+            onOrders(context);
+        });
+
+        routes.post('/#/create-order-test', function (context) {
+            var data = context.params.orderData;
+            $.ajax({
+                url: '/api/order/add/?q=' + data,
+                method: 'GET'
+            }).done(function (data) {
+                console.log("create order done!");
+                if (data.charAt(0) != '<') {
+                    var results = new Orders(JSON.parse(data));
+                    viewEngine.setView({
+                        template: 't-order-grid',
+                        data: results
+                    });
+                } else {
+                    viewEngine.setView({
+                        template: 't-login'
+                    });
+                }
+            });
+        });
+
+        onOrders = function (context) {
+            return $.ajax({
+                url: '/api/order',
+                method: 'GET'
+            }).done(function (data) {
+                if (data.charAt(0) != '<') {
+                    var results = new Orders(JSON.parse(data));
+                    viewEngine.setView({
+                        template: 't-order-grid',
+                        data: results
+                    });
+                } else {
+                    viewEngine.setView({
+                        template: 't-login'
+                    });
+                }
+            });
+        };
         
 
         onSearch = function (context) {
@@ -65,7 +109,6 @@ define('controllers/homeController', {
                 method: 'GET'
             }).done(function (data) {
                 if (data.charAt(0) != '<') {
-                    JSON.parse(data);
                     var results = new Cart(JSON.parse(data));
                     //cart = results;
                     viewEngine.setView({
@@ -147,7 +190,8 @@ define('controllers/homeController', {
             onSearch: onSearch,
             onCart: onCart,
             onPayment: onPayment,
-            onStripeSubmit: onStripeSubmit
+            onStripeSubmit: onStripeSubmit,
+            onOrders: onOrders
         };
     }
 });
