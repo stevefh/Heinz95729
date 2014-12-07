@@ -24,18 +24,13 @@ namespace Moviq.Domain.Cart
         
         public bool Add(ProductInfo productInfo)
         {
-            if (Products == null)
+            foreach (var product in Products)
             {
-                Products = new List<ProductInfo>();
-                Products.Add(productInfo);
-                return true;
+                if (product.Uid.Equals(productInfo.Uid))
+                    return false;
             }
-            else if (!Products.Contains(productInfo))
-            {
-                Products.Add(productInfo);
-                return true;
-            }
-            return false;
+            Products.Add(productInfo);
+            return true;
         }
 
         public bool Remove(string uid)
