@@ -5,11 +5,9 @@ define('controllers/homeController', {
         "use strict";
 
 
-        var onSearch, onCart, onPayment, onStripeSubmit;
+        var onSearch, onCart, onPayment, onConfirm, onTokenCreate;
         var onRemoveItem;
         var cart;
-
-
 
         // GET /#/search/?q=searchterm
         // search for products
@@ -63,7 +61,7 @@ define('controllers/homeController', {
                 }
             });
         }
-
+        
         onSearch = function (context) {
             return $.ajax({
                 url: '/api/search/?q=' + context.params.q,
@@ -116,36 +114,58 @@ define('controllers/homeController', {
             viewEngine.setView({
                 template: 't-payment-info'
             });
-        }
-
-        onStripeSubmit = function (event) {
-            var $form = $(this);
-
-            // Disable the submit button to prevent repeated clicks
-            $form.find('button').prop('disabled', true);
-
-            Stripe.card.createToken($form, stripeResponseHandler);
-
-            // Prevent the form from submitting with the default action
-            return false;
         };
 
-        function stripeResponseHandler(status, response) {
-            var $form = $('#payment-form');
+        //------------------------------------------------
+        routes.post(/^\/#\/confirm/, function (context) {
+            onConfirm(context);
+        });
 
+        Stripe.setPublishableKey('pk_test_XTCnCpSPjzYL6y7xtp6jEcBg');
+
+        var stripeResponseHandler = function (status, response) {
+            //var $form = $('#payment-form');
+            console.log(status);
             if (response.error) {
                 // Show the errors on the form
                 $form.find('.payment-errors').text(response.error.message);
                 $form.find('button').prop('disabled', false);
             } else {
-                // response contains id and card, which contains additional card details
+                // token contains id, last4, and card type
                 var token = response.id;
+                console.log("token"+token);
+                onTokenCreate(token);
                 // Insert the token into the form so it gets submitted to the server
-                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-                // and submit
-                $form.get(0).submit();
+                //$form.append($('<input type="hidden" name="stripeToken" />').val(token));
+                //// and re-submit
+                //$form.get(0).submit();
             }
         };
+
+        onTokenCreate = function (token) {
+            return $.ajax({
+                url: '/api/Payment?t=' + token,
+                method: 'POST'
+            }).done(function (data) {
+                alert("payment made");
+            });
+        };
+
+        onConfirm = function (context) {
+            alert("in onPayment");
+            console.log($('#exp-month').val());
+            Stripe.card.createToken({
+                number: $('#number').val(),
+                cvc: $('#cvc').val(),
+                exp_month: $('#exp-month').val(),
+                exp_year: $('#exp-year').val()
+            }, stripeResponseHandler);
+
+            // Prevent the form from submitting with the default action
+            //return false;
+        };
+
+        //----------------------------------------------------------------------------------------
 
         return {
             onSearch: onSearch,
@@ -153,7 +173,8 @@ define('controllers/homeController', {
             onRemoveItem: onRemoveItem,
             cart: cart,
             onPayment: onPayment,
-            onStripeSubmit: onStripeSubmit
+            onConfirm: onConfirm,
+            onTokenCreate : onTokenCreate
         };
     }
 });
