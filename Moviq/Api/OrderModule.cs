@@ -17,7 +17,7 @@ namespace Moviq.Api
 {
     public class OrderModule : NancyModule
     {
-        public OrderModule(IOrderDomain orders, IProductDomain products, IModuleHelpers helper){
+        public OrderModule(IOrderDomain orders, IProductDomain products, ICartDomain carts, IModuleHelpers helper){
 
             this.Get["/api/order"] = args =>
             {
@@ -57,6 +57,7 @@ namespace Moviq.Api
                     var currentProduct = products.Repo.Get(productInfo.Uid);
                     if (currentProduct == null)
                         continue;
+                    carts.Repo.RemoveFromCart(guid, productInfo.Uid);
                     orderProducts.Add(currentProduct);
                     totalPrice = totalPrice + currentProduct.Price;
                 }
