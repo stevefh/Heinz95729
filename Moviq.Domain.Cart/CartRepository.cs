@@ -106,14 +106,7 @@ namespace Moviq.Domain.Cart
         public bool RemoveFromCart(string guid, string uid)
         {
             var cart = Get(guid);
-            var product = productRepository.Get(uid);
-            var productInfo = new ProductInfo
-            {
-                Uid = product.Uid,
-                Title = product.Title,
-                Price = product.Price
-            };
-            if (cart.Remove(productInfo))
+            if (cart.Remove(uid))
             {
                 Set(cart);
                 return true;

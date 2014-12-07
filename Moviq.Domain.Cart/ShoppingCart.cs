@@ -38,12 +38,14 @@ namespace Moviq.Domain.Cart
             return false;
         }
 
-        public bool Remove(ProductInfo productInfo)
+        public bool Remove(string uid)
         {
-            if (Products.Contains(productInfo))
-            {
-                Products.Remove(productInfo);
-                return true;
+            foreach (var productInfo in Products) {
+                if (productInfo.Uid.Equals(uid))
+                {
+                    Products.Remove(productInfo);
+                    return true;
+                }     
             }
             return false;
         }

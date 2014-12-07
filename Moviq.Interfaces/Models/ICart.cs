@@ -13,6 +13,6 @@ namespace Moviq.Interfaces.Models
         ICollection<ProductInfo> Products { get; set; }
 
         bool Add(ProductInfo productInfo);
-        bool Remove(ProductInfo productInfo);
+        bool Remove(string uid);
     }
 }
