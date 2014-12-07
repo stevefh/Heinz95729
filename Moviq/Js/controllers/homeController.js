@@ -172,24 +172,44 @@ define('controllers/homeController', {
                 var token = response.id;
                 console.log("token"+token);
                 onTokenCreate(token);
-                // Insert the token into the form so it gets submitted to the server
-                //$form.append($('<input type="hidden" name="stripeToken" />').val(token));
-                //// and re-submit
-                //$form.get(0).submit();
             }
         };
 
         onTokenCreate = function (token) {
             return $.ajax({
-                url: '/api/Payment?t=' + token,
+                url: '/api/Payment/?t=' + token+ '&a=' + $('#order-total').val(),
                 method: 'POST'
             }).done(function (data) {
-                alert("payment made");
+                var resp = JSON.parse(data);
+                if (resp.statusCode == 200) {
+                    alert("Payment Successful");
+                    $.ajax({
+                        url: '/api/order',
+                        method: 'GET'
+                    }).done(function (data) {
+                        if (data.charAt(0) != '<') {
+                            var results = new Orders(JSON.parse(data));
+                            viewEngine.setView({
+                                template: 't-order-grid',
+                                data: results
+                            });
+                        } else {
+                            viewEngine.setView({
+                                template: 't-login'
+                            });
+                        }
+                    });
+                }
+                else {
+                    alert("Payment Declined");
+                    viewEngine.setView({
+                        template: 't-empty'
+                    })
+                }
             });
         };
 
         onConfirm = function (context) {
-            alert("in onPayment");
             console.log($('#exp-month').val());
             Stripe.card.createToken({
                 number: $('#number').val(),
