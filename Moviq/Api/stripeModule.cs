@@ -5,36 +5,36 @@ using System.Web;
 using Nancy;
 using RestSharp;
 using System.Text;
+using Moviq.Helpers;
 
 namespace Moviq.Api
 {
     public class stripeModule :NancyModule
     {
-        public stripeModule()
+        public stripeModule(IModuleHelpers helper)
         {
             this.Post["/api/Payment"] = args =>
             {
-                var token = this.Request.Query.q;
+                var token = this.Request.Query.t;
+                var amount = this.Request.Query.a;
+                decimal a = (decimal)amount;
+                a = a * 100;
+                int total = (int)a;
                 RestClient myClient = new RestClient("https://api.stripe.com/v1/charges");
                 
                 RestRequest myRequest = new RestRequest(Method.POST);
-                //myRequest.RequestFormat = DataFormat.Json;
+                myRequest.RequestFormat = DataFormat.Json;
                 string mykey = "sk_test_ZwxIpFE6CwwqyyZ364K5FBlr";
                             
                 myRequest.AddHeader("Authorization", "Bearer " + mykey);
-                //
-                myRequest.AddBody(new { amount = "20", currency = "usd", card = token });
-                //StringBuilder str = new StringBuilder();
-                //str.AppendFormat("{amount={0}&", "20");
-                //str.AppendFormat("currency={0}&", "usd");
-                //str.AppendFormat("description={0}&", "card charges");
-                //str.AppendFormat("card={0}&}", token);
 
-                //myRequest.AddParameter("text/json", str.ToString(), ParameterType.RequestBody);
+                myRequest.AddParameter("card", token);
+                myRequest.AddParameter("amount", total);
+                myRequest.AddParameter("currency", "usd");
+                myRequest.AddParameter("description", "hello");
                 var response = myClient.Execute(myRequest);
 
-                
-                return 1;
+                return helper.ToJson(response);
             };
 
         }

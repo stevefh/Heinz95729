@@ -139,7 +139,6 @@
     <Content Include="Js\controllers\homeController.js" />
     <Content Include="Js\controllers\cartController.js" />
     <Content Include="Js\controllers\profileController.js" />
-    <Content Include="Js\controllers\StripeController.js" />
     <Content Include="Js\lib\grid.js" />
     <Content Include="Js\lib\ko.binders.js" />
     <Content Include="Js\lib\modernizr.custom.js" />
@@ -215,7 +214,6 @@
     <Compile Include="App_Start\OwinBootstrapper.cs" />
     <Compile Include="Controllers\AuthModule.cs" />
     <Compile Include="Controllers\HomeModule.cs" />
-    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\UserProfileModule.cs" />
     <Compile Include="Helpers\ModuleHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
