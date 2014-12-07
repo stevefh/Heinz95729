@@ -42,7 +42,8 @@ namespace Moviq.Api
                     var product = products.Repo.Get(productInfo.Uid);
                     if (product == null)
                     {
-                        unavailableTitles.Add(productInfo.Uid);
+                        unavailableTitles.Add(productInfo.Title);
+                        carts.Repo.RemoveFromCart(guid, productInfo.Uid);
                     }
                     else
                     {
