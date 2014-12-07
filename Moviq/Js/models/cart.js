@@ -12,12 +12,17 @@ define('models/cart', {
             throw new Error('Argument Exception: CartItem is required to init the products module');
         }
 
-        var Cart = function (cart) {
+        var Cart = function (cartData) {
+            var cart = cartData.products;
+            var unavailables = cartData.unavailableTitles;
             var $this = this;
             var total = 0;
             $this.cart = ko.observableArray();
             $this.total = undefined;
-            
+            $this.message = ko.computed(function () {
+                return "";
+            });
+
 
             $this.addCartItem = function (cartItem) {
                 if (!cartItem) {
@@ -70,9 +75,30 @@ define('models/cart', {
             if (cart) {
                 $this.addCart(cart);
                 $this.total = ko.computed(function () {
-                    return total.toFixed(2);
+                    if (total)
+                        return total.toFixed(2);
+                    else
+                        return 0;
                 });
                 $this.test = total;
+            }
+
+            if (unavailables) {
+                var unLen = unavailables.length;
+                console.log("unavailable length:" + length);
+                if (unLen != 0) {
+                    $this.message = ko.computed(function () {
+                        var m = "Sorry! "+unLen+" products no longer available are removed from your cart: "
+                        for (var i = 0; i < unLen; i++) {
+                            if (i != 0)
+                                m += ", "
+                            m += unavailables[i];
+                        }
+                        m += "."
+                        return m;
+                    });
+                }
+
             }
 
             //$this.removeCartItem = function (cartItem) {
@@ -111,7 +137,7 @@ define('models/cart', {
                         alert("delete failed!");
                     }
                 });
-                
+
             }
         };
 
