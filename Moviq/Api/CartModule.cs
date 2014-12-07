@@ -36,17 +36,13 @@ namespace Moviq.Api
                 string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
                 var cart = carts.Repo.Get(guid);
                 List<ProductInfo> result = new List<ProductInfo>();
-                foreach (var productUid in cart.Products)
+                List<string> unavailableTitles = new List<string>();
+                foreach (var productInfo in cart.Products)
                 {
-                    var product = products.Repo.Get(productUid);
+                    var product = products.Repo.Get(productInfo.Uid);
                     if (product == null)
                     {
-                        result.Add(new ProductInfo
-                        {
-                            Uid = productUid,
-                            Title = null,
-                            Price = 0
-                        });
+                        unavailableTitles.Add(productInfo.Uid);
                     }
                     else
                     {
@@ -59,43 +55,12 @@ namespace Moviq.Api
                     }
                 }
 
-                return helper.ToJson(result);
-            };
+                var cartInfo = new CartInfo{
+                    products = result,
+                    unavailableTitles = unavailableTitles
+                };
 
-            this.Get["/api/cart/add"] = args =>
-            {
-                this.RequiresAuthentication();
-
-                var uid = this.Request.Query.q;
-                ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
-                string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
-                carts.Repo.AddToCart(guid, uid);
-                var cart = carts.Repo.Get(guid);
-                List<ProductInfo> result = new List<ProductInfo>();
-                foreach (var productUid in cart.Products)
-                {
-                    var product = products.Repo.Get(productUid);
-                    if (product == null)
-                    {
-                        result.Add(new ProductInfo
-                        {
-                            Uid = product.Uid,
-                            Title = null,
-                            Price = 0
-                        });
-                    }
-                    else
-                    {
-                        result.Add(new ProductInfo
-                        {
-                            Uid = product.Uid,
-                            Title = product.Title,
-                            Price = product.Price
-                        });
-                    }
-                    
-                }
-                return helper.ToJson(result);
+                return helper.ToJson(cartInfo);
             };
 
             this.Get["/api/cart/remove"] = args =>
@@ -108,20 +73,42 @@ namespace Moviq.Api
                 carts.Repo.RemoveFromCart(guid, uid);
                 var cart = carts.Repo.Get(guid);
                 List<ProductInfo> result = new List<ProductInfo>();
-                foreach (var productUid in cart.Products)
+                List<string> unavailableTitles = new List<string>();
+                foreach (var productInfo in cart.Products)
                 {
-                    var product = products.Repo.Get(productUid);
-                    result.Add(new ProductInfo
+                    var product = products.Repo.Get(productInfo.Uid);
+                    if (product == null)
                     {
-                        Uid = product.Uid,
-                        Title = product.Title,
-                        Price = product.Price
-                    });
+                        unavailableTitles.Add(productInfo.Uid);
+                    }
+                    else
+                    {
+                        result.Add(new ProductInfo
+                        {
+                            Uid = product.Uid,
+                            Title = product.Title,
+                            Price = product.Price
+                        });
+                    }
                 }
-                return helper.ToJson(result);
+
+                var cartInfo = new CartInfo
+                {
+                    products = result,
+                    unavailableTitles = unavailableTitles
+                };
+
+                return helper.ToJson(cartInfo);
             };
 
             
         }
+
+        private class CartInfo
+        {
+            public List<ProductInfo> products { get; set; }
+            public List<string> unavailableTitles { get; set; }
+        }
+
     }
 }

@@ -88,7 +88,14 @@ namespace Moviq.Domain.Cart
             if (productRepository.Get(uid) == null)
                 return false;
             var cart = Get(guid);
-            if (cart.Add(uid))
+            var product = productRepository.Get(uid);
+            var productInfo = new ProductInfo
+            {
+                Uid = product.Uid,
+                Title = product.Title,
+                Price = product.Price
+            };
+            if (cart.Add(productInfo))
             {
                 Set(cart);
                 return true;
@@ -99,7 +106,14 @@ namespace Moviq.Domain.Cart
         public bool RemoveFromCart(string guid, string uid)
         {
             var cart = Get(guid);
-            if (cart.Remove(uid))
+            var product = productRepository.Get(uid);
+            var productInfo = new ProductInfo
+            {
+                Uid = product.Uid,
+                Title = product.Title,
+                Price = product.Price
+            };
+            if (cart.Remove(productInfo))
             {
                 Set(cart);
                 return true;

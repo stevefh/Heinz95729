@@ -12,37 +12,37 @@ namespace Moviq.Domain.Cart
         public ShoppingCart(Guid Guid)
         {
             this.Guid = Guid;
-            Products = new List<string>();
+            Products = new List<ProductInfo>();
             _type = "cart";
         }
         public Guid Guid { get; set; }
 
-        public ICollection<string> Products { get; set; }
+        public ICollection<ProductInfo> Products { get; set; }
 
         public string _type { get; set; }
 
         
-        public bool Add(string uid)
+        public bool Add(ProductInfo productInfo)
         {
             if (Products == null)
             {
-                Products = new List<string>();
-                Products.Add(uid);
+                Products = new List<ProductInfo>();
+                Products.Add(productInfo);
                 return true;
             }
-            else if (!Products.Contains(uid))
+            else if (!Products.Contains(productInfo))
             {
-                Products.Add(uid);
+                Products.Add(productInfo);
                 return true;
             }
             return false;
         }
 
-        public bool Remove(string uid)
+        public bool Remove(ProductInfo productInfo)
         {
-            if (Products.Contains(uid))
+            if (Products.Contains(productInfo))
             {
-                Products.Remove(uid);
+                Products.Remove(productInfo);
                 return true;
             }
             return false;
