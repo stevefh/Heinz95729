@@ -193,6 +193,7 @@
     <Content Include="Views\Templates\cart-grid.html" />
     <Content Include="Views\Templates\error-404.html" />
     <Content Include="Views\Templates\login.html" />
+    <Content Include="Views\Templates\order-grid.html" />
     <Content Include="Views\Templates\payment-page.html" />
     <Content Include="Views\Templates\register.html" />
     <Content Include="Views\Templates\search-no-results.html" />

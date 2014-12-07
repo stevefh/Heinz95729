@@ -16,6 +16,18 @@ namespace Moviq.Api
     {
         public CartModule(ICartDomain carts, IProductDomain products, IModuleHelpers helper)
         {
+            this.Post["/api/cart/add"] = args =>
+            {
+                this.RequiresAuthentication();
+
+                var uid = (string)this.Request.Form.uid;
+                ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
+                string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
+                carts.Repo.AddToCart(guid, uid);
+
+                return Response.AsRedirect("/#/cart");
+            }; 
+
             this.Get["/api/cart"] = args =>
             {
                 this.RequiresAuthentication();
@@ -24,41 +36,32 @@ namespace Moviq.Api
                 string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
                 var cart = carts.Repo.Get(guid);
                 List<ProductInfo> result = new List<ProductInfo>();
-                foreach (var productUid in cart.Products)
+                List<string> unavailableTitles = new List<string>();
+                foreach (var productInfo in cart.Products)
                 {
-                    var product = products.Repo.Get(productUid);
-                    result.Add(new ProductInfo
+                    var product = products.Repo.Get(productInfo.Uid);
+                    if (product == null)
                     {
-                        Uid = product.Uid,
-                        Title = product.Title,
-                        Price = product.Price
-                    });
+                        unavailableTitles.Add(productInfo.Title);
+                        carts.Repo.RemoveFromCart(guid, productInfo.Uid);
+                    }
+                    else
+                    {
+                        result.Add(new ProductInfo
+                        {
+                            Uid = product.Uid,
+                            Title = product.Title,
+                            Price = product.Price
+                        });
+                    }
                 }
 
-                return helper.ToJson(result);
-            };
+                var cartInfo = new CartInfo{
+                    products = result,
+                    unavailableTitles = unavailableTitles
+                };
 
-            this.Get["/api/cart/add"] = args =>
-            {
-                this.RequiresAuthentication();
-
-                var uid = this.Request.Query.q;
-                ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
-                string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
-                carts.Repo.AddToCart(guid, uid);
-                var cart = carts.Repo.Get(guid);
-                List<ProductInfo> result = new List<ProductInfo>();
-                foreach (var productUid in cart.Products)
-                {
-                    var product = products.Repo.Get(productUid);
-                    result.Add(new ProductInfo
-                    {
-                        Uid = product.Uid,
-                        Title = product.Title,
-                        Price = product.Price
-                    });
-                }
-                return helper.ToJson(result);
+                return helper.ToJson(cartInfo);
             };
 
             this.Get["/api/cart/remove"] = args =>
@@ -71,30 +74,42 @@ namespace Moviq.Api
                 carts.Repo.RemoveFromCart(guid, uid);
                 var cart = carts.Repo.Get(guid);
                 List<ProductInfo> result = new List<ProductInfo>();
-                foreach (var productUid in cart.Products)
+                List<string> unavailableTitles = new List<string>();
+                foreach (var productInfo in cart.Products)
                 {
-                    var product = products.Repo.Get(productUid);
-                    result.Add(new ProductInfo
+                    var product = products.Repo.Get(productInfo.Uid);
+                    if (product == null)
                     {
-                        Uid = product.Uid,
-                        Title = product.Title,
-                        Price = product.Price
-                    });
+                        unavailableTitles.Add(productInfo.Uid);
+                    }
+                    else
+                    {
+                        result.Add(new ProductInfo
+                        {
+                            Uid = product.Uid,
+                            Title = product.Title,
+                            Price = product.Price
+                        });
+                    }
                 }
-                return helper.ToJson(result);
+
+                var cartInfo = new CartInfo
+                {
+                    products = result,
+                    unavailableTitles = unavailableTitles
+                };
+
+                return helper.ToJson(cartInfo);
             };
 
-            this.Post["/api/cart/add"] = args =>
-            {
-                this.RequiresAuthentication();
-
-                var uid = (string)this.Request.Form.uid;
-                ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
-                string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
-                carts.Repo.AddToCart(guid, uid);
-
-                return Response.AsRedirect("/#/cart");
-            }; 
+            
         }
+
+        private class CartInfo
+        {
+            public List<ProductInfo> products { get; set; }
+            public List<string> unavailableTitles { get; set; }
+        }
+
     }
 }

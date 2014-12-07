@@ -68,7 +68,6 @@
     <Compile Include="CartDomain.cs" />
     <Compile Include="CartFactory.cs" />
     <Compile Include="CartRepository.cs" />
-    <Compile Include="ProductInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCart.cs" />
   </ItemGroup>

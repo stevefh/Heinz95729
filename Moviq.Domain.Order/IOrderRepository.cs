@@ -10,5 +10,6 @@ namespace Moviq.Domain.Order
     public interface IOrderRepository : IRepository<IOrder>
     {
         void AddOrder(string guid, SingleOrder singleOrder);
+        ISingleOrder GetOrderByID(ulong orderID);
     }
 }

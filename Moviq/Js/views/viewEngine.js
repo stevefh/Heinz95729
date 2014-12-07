@@ -15,7 +15,6 @@ define('views/viewEngine', { init: function ($, ko) {
         self.links = [];
         self.cartCount = ko.observable();
         self.showCartCount = ko.computed(function () {
-            console.log("show?");
             return self.cartCount() > 0;
         }, self);
         

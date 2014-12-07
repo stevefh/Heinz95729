@@ -17,7 +17,7 @@ namespace Moviq.Api
 {
     public class OrderModule : NancyModule
     {
-        public OrderModule(IOrderDomain orders, IProductDomain products, IModuleHelpers helper){
+        public OrderModule(IOrderDomain orders, IProductDomain products, ICartDomain carts, IModuleHelpers helper){
 
             this.Get["/api/order"] = args =>
             {
@@ -25,9 +25,17 @@ namespace Moviq.Api
 
                 ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
                 string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
+                List<ISingleOrder> result = new List<ISingleOrder>();
 
                 var order = orders.Repo.Get(guid);
-                return helper.ToJson(order);
+
+                foreach (var orderID in order.Orders)
+                {
+                    var singleOrder = orders.Repo.GetOrderByID(orderID);
+                    result.Add(singleOrder);
+                }
+
+                return helper.ToJson(result);
             };
 
             // sample: api/order/add?q=[{"Uid":"leave_you","Title":"This Is Where I Leave You: A Novel","Price":7.99}]
@@ -49,6 +57,7 @@ namespace Moviq.Api
                     var currentProduct = products.Repo.Get(productInfo.Uid);
                     if (currentProduct == null)
                         continue;
+                    carts.Repo.RemoveFromCart(guid, productInfo.Uid);
                     orderProducts.Add(currentProduct);
                     totalPrice = totalPrice + currentProduct.Price;
                 }
@@ -60,8 +69,16 @@ namespace Moviq.Api
                     TotalPrice = totalPrice
                 });
 
-                var order = orders.Repo.Get(guid); 
-                return helper.ToJson(order);
+                var order = orders.Repo.Get(guid);
+                List<ISingleOrder> res = new List<ISingleOrder>();
+
+                foreach (var orderID in order.Orders)
+                {
+                    var singleOrder = orders.Repo.GetOrderByID(orderID);
+                    res.Add(singleOrder);
+                }
+
+                return helper.ToJson(res);
             };
         }
     }

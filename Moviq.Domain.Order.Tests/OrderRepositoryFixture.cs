@@ -18,6 +18,7 @@
     using Enyim.Caching.Memcached.Results;
     using Moviq.Domain.Products;
     using FluentAssertions;
+    using Moviq.Domain.Order;
 
     [TestClass]
     public class OrderRepositoryFixture
@@ -39,8 +40,10 @@
             productRepo = new ProductNoSqlRepository(productFactory, db, locale, restClient, "http://localhost:9200/unittests/_search");
             //ICouchbaseClient db, IFactory<IUser> userFactory, ILocale locale
             cartRepo = new CartRepository(productRepo, cartFactory, db, locale);
+
         }
 
+        IRepository<IOrder> orderRepo;
         IRepository<ICart> cartRepo;
         ICart mockCart;
         IRepository<IProduct> productRepo;

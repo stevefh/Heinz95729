@@ -1,13 +1,11 @@
 /*global define, JSON*/
 
 define('controllers/homeController', {
-    init: function (routes, viewEngine, Products, Product, Cart, CartItem) {
+    init: function (routes, viewEngine, Products, Product, Cart, Orders) {
         "use strict";
 
-
         var onSearch, onCart, onPayment, onConfirm, onTokenCreate;
-        var onRemoveItem;
-        var cart;
+        var onOrders;
 
         // GET /#/search/?q=searchterm
         // search for products
@@ -15,9 +13,7 @@ define('controllers/homeController', {
             onSearch(context);
         });
 
-        routes.get(/^\/#\/removeItem\/?/i, function (context) {
-            onRemoveItem(context);
-        });
+        
 
         routes.get('/', function (context) {
             viewEngine.setView({
@@ -37,30 +33,49 @@ define('controllers/homeController', {
             });
         });
 
-        onRemoveItem = function (context) {
-            //console.log("q:" + context.params.q);
-            //cart.removeTest(context.params.q);
-            //return true;
-            return $.ajax({
-                url: '/api/cart/remove/?q=' + context.params.q,
+        routes.get(/^\/#\/orders/, function (context) {
+            onOrders(context);
+        });
+
+        routes.post('/#/create-order-test', function (context) {
+            var data = context.params.orderData;
+            $.ajax({
+                url: '/api/order/add/?q=' + data,
                 method: 'GET'
             }).done(function (data) {
+                console.log("create order done!");
                 if (data.charAt(0) != '<') {
-                    JSON.parse(data);
-                    var results = new Cart(JSON.parse(data));
-                    cart = results;
+                    var results = new Orders(JSON.parse(data));
                     viewEngine.setView({
-                        template: 't-cart-grid',
+                        template: 't-order-grid',
                         data: results
                     });
-                    viewEngine.headerVw.subtractFromCart();
                 } else {
                     viewEngine.setView({
                         template: 't-login'
                     });
                 }
             });
-        }
+        });
+
+        onOrders = function (context) {
+            return $.ajax({
+                url: '/api/order',
+                method: 'GET'
+            }).done(function (data) {
+                if (data.charAt(0) != '<') {
+                    var results = new Orders(JSON.parse(data));
+                    viewEngine.setView({
+                        template: 't-order-grid',
+                        data: results
+                    });
+                } else {
+                    viewEngine.setView({
+                        template: 't-login'
+                    });
+                }
+            });
+        };
         
         onSearch = function (context) {
             return $.ajax({
@@ -90,14 +105,13 @@ define('controllers/homeController', {
                 method: 'GET'
             }).done(function (data) {
                 if (data.charAt(0) != '<') {
-                    JSON.parse(data);
                     var results = new Cart(JSON.parse(data));
-                    cart = results;
+                    //cart = results;
                     viewEngine.setView({
                         template: 't-cart-grid',
                         data: results
                     });
-                    viewEngine.headerVw.setCartCount(results.cart().length);
+                    viewEngine.headerVw.cartCount(results.cart().length);
                 } else {
                     viewEngine.setView({
                         template: 't-login'
@@ -106,13 +120,36 @@ define('controllers/homeController', {
             });
         };
 
-        routes.post(/^\/#\/payment\/?/i, function (context) {
+        routes.get(/^\/#\/payment\/?/i, function (context) {
             onPayment(context);
         });
 
         onPayment = function (context) {
-            viewEngine.setView({
-                template: 't-payment-info'
+            return  $.ajax({
+                url: '/api/cart',
+                method: 'GET'
+            }).done(function (data) {
+                if (data.charAt(0) != '<') {
+                    JSON.parse(data);
+                    var results = new Cart(JSON.parse(data));
+                    //cart = results;
+                    if (results.message() == "") {
+                        viewEngine.setView({
+                            template: 't-payment-info',
+                            data: results
+                        });
+                    } else {
+                        viewEngine.setView({
+                            template: 't-cart-grid',
+                            data: results
+                        });
+                    }         
+                    viewEngine.headerVw.cartCount(results.cart().length);
+                } else {
+                    viewEngine.setView({
+                        template: 't-login'
+                    });
+                }
             });
         };
 
@@ -170,11 +207,10 @@ define('controllers/homeController', {
         return {
             onSearch: onSearch,
             onCart: onCart,
-            onRemoveItem: onRemoveItem,
-            cart: cart,
             onPayment: onPayment,
             onConfirm: onConfirm,
-            onTokenCreate : onTokenCreate
+            onTokenCreate : onTokenCreate,
+            onOrders: onOrders
         };
     }
 });

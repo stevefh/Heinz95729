@@ -1,7 +1,7 @@
 /*jslint plusplus: true*/
 /*global define*/
 define('models/cart', {
-    init: function (ko, CartItem) {
+    init: function (ko, viewEngine, CartItem) {
         "use strict";
 
         if (!ko) {
@@ -12,12 +12,20 @@ define('models/cart', {
             throw new Error('Argument Exception: CartItem is required to init the products module');
         }
 
-        var Cart = function (cart) {
+        var Cart = function (cartData) {
+            var cart = cartData.products;
+            var unavailables = cartData.unavailableTitles;
             var $this = this;
             var total = 0;
             $this.cart = ko.observableArray();
             $this.total = undefined;
-            
+            $this.message = ko.computed(function () {
+                return "";
+            });
+            $this.cartData = ko.computed(function () {
+                return JSON.stringify(cart);
+            });
+
 
             $this.addCartItem = function (cartItem) {
                 if (!cartItem) {
@@ -70,9 +78,30 @@ define('models/cart', {
             if (cart) {
                 $this.addCart(cart);
                 $this.total = ko.computed(function () {
-                    return total.toFixed(2);
+                    if (total)
+                        return total.toFixed(2);
+                    else
+                        return 0;
                 });
                 $this.test = total;
+            }
+
+            if (unavailables) {
+                var unLen = unavailables.length;
+                console.log("unavailable length:" + length);
+                if (unLen != 0) {
+                    $this.message = ko.computed(function () {
+                        var m = "Sorry! "+unLen+" products no longer available are removed from your cart: "
+                        for (var i = 0; i < unLen; i++) {
+                            if (i != 0)
+                                m += ", "
+                            m += unavailables[i];
+                        }
+                        m += "."
+                        return m;
+                    });
+                }
+
             }
 
             //$this.removeCartItem = function (cartItem) {
@@ -86,17 +115,32 @@ define('models/cart', {
             //    $this.cart.remove(cartItem);
             //}
             $this.removeTest = function (uid) {
+                console.log("removeTest!");
+                // var uid = child.uid();
                 console.log("removeTest:" + uid);
-                cart = $this.cart();
-                var i = 0;
 
-                for (i; i < cart.length; i++) {
-                    console.log(cart[i].uid);
-                    if (cart[i].uid() == uid) {
-                        $this.cart.remove(cart[i]);
+                $.ajax({
+                    url: '/api/cart/remove/?q=' + uid,
+                    method: 'GET'
+                }).done(function (data) {
+                    if (data.charAt(0) != '<') {
+                        cart = $this.cart();
+
+                        var i = 0;
+
+                        for (i; i < cart.length; i++) {
+                            console.log(cart[i].uid);
+                            if (cart[i].uid() == uid) {
+                                $this.cart.remove(cart[i]);
+                            }
+                        }
+                        console.log("cart length" + cart.length);
+                        viewEngine.headerVw.subtractFromCart();
+                    } else {
+                        alert("delete failed!");
                     }
-                }
-                console.log("cart length"+cart.length);
+                });
+
             }
         };
 

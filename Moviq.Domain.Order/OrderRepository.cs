@@ -43,6 +43,15 @@ namespace Moviq.Domain.Order
                 return Set(new Order(Guid.Parse(guid)));
         }
 
+        public ISingleOrder GetOrderByID(ulong orderID)
+        {
+            var result = db.GetJson<SingleOrder>(String.Format(keyPattern, orderID));
+            if (result != null)
+                return result;
+            else
+                return null;
+        }
+
         public bool KeyExists(string guid)
         {
             return db.KeyExists(String.Format(keyPattern, guid));

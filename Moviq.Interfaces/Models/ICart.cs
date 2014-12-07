@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moviq.Domain.Cart;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,9 @@ namespace Moviq.Interfaces.Models
     public interface ICart
     {
         Guid Guid { get; set; }
-        ICollection<string> Products { get; set; }
+        ICollection<ProductInfo> Products { get; set; }
 
-        bool Add(string uid);
+        bool Add(ProductInfo productInfo);
         bool Remove(string uid);
     }
 }
