@@ -25,9 +25,17 @@ namespace Moviq.Api
 
                 ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
                 string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
+                List<ISingleOrder> result = new List<ISingleOrder>();
 
                 var order = orders.Repo.Get(guid);
-                return helper.ToJson(order);
+
+                foreach (var orderID in order.Orders)
+                {
+                    var singleOrder = orders.Repo.GetOrderByID(orderID);
+                    result.Add(singleOrder);
+                }
+
+                return helper.ToJson(result);
             };
 
             // sample: api/order/add?q=[{"Uid":"leave_you","Title":"This Is Where I Leave You: A Novel","Price":7.99}]
