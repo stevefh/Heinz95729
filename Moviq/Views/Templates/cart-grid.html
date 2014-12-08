@@ -12,13 +12,11 @@
                 <tr data-bind="value: cartItem.uid">
                     <td><h5 data-bind="text: cartItem.title"></h5></td>
                     <td><h5 data-bind="text: cartItem.price"></h5></td>
-                    <!--<td><button type="button" class="btn btn-danger" data-bind="click:cartItem.remove(),attr:{'data-item-uid':cartItem.uid}">Remove</button></td>-->
                     <td><button type="button" class="btn btn-danger" data-bind="click: function(){$parent.data.removeTest(cartItem.uid());}">Remove</button></td>
-                    <!--<td><a data-bind="href:'/removeItem/?q='+cartItem.uid()"><input type="button" class="btn btn-danger" value="Remove"/></a></td>-->
                 </tr>
             </tbody>
         </table>
-        <h3>Total: $<span id="cart-total" data-bind="text: data.total()"></span></h3>
+        <h3>Total: $<span id="cartTotal" data-bind="text: data.total(), value: data.total()"></span></h3>
 
         <a href="/#/payment">
             <input class="btn btn-success" type="button" value="Checkout" />

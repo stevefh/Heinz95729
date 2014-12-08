@@ -60,9 +60,10 @@ define('controllers/cartController', {
         });
 
         onPayment = function (context) {
-            var total = $("#cart-total").val();
+            var total = $("#cartTotal").val();
             if (total == 0) {
                 alert("Please add items to pay!");
+                routes.navigate("/cart");
                 return true;
             };
             return $.ajax({
