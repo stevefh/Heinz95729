@@ -5,21 +5,24 @@
     </a>
     <br />
     <h2>Shopping Cart</h2>
-    <div class="cart-component">
+    <div class="panel panel-default">
         <h4 data-bind="text:data.message()"></h4>
-        <table class="table table-striped">
+        <table class="table">
             <tbody data-bind="foreach: { data: data.cart(), as: 'cartItem' }">
                 <tr data-bind="value: cartItem.uid">
                     <td><h5 data-bind="text: cartItem.title"></h5></td>
                     <td><h5 data-bind="text: cartItem.price"></h5></td>
-                    <td><button type="button" class="btn btn-danger" data-bind="click: function(){$parent.data.removeTest(cartItem.uid());}">Remove</button></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" data-bind="click: function(){$parent.data.removeTest(cartItem.uid());}">Remove</button></td>
                 </tr>
             </tbody>
         </table>
-        <h3>Total: $<span id="cartTotal" data-bind="text: data.total(), value: data.total()"></span></h3>
-
-        <a href="/#/payment">
-            <input class="btn btn-success" type="button" value="Checkout" />
-        </a>
+        <div class="panel-footer">
+            <h4>
+                Total: $<span id="cartTotal" data-bind="text: data.total(), value: data.total()"></span>
+            </h4>
+        </div>
     </div>
+    <a href="/#/payment">
+        <input class="btn btn-success" type="button" value="Checkout" />
+    </a>
 </script>
