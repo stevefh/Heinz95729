@@ -66,7 +66,6 @@ define('routeEngine', { init: function ($, globalSammy, config, utils, viewEngin
         var anchor = $('<a />').addClass('hidden').attr('href', '/#' + path);
         
         $('body').append(anchor);
-        
         anchor.click().remove();
     };
     

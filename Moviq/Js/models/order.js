@@ -20,7 +20,10 @@ define('models/order', {
 
                 var type = orderData._type || 'order';
 
-                order.orderDate = ko.observable(orderData.orderDate);
+                var date = orderData.orderDate.substring(0, 10);
+                var time = orderData.orderDate.substring(11, 19);
+
+                order.orderDate = ko.observable(date+"  "+time);
                 order.totalPrice = ko.observable(orderData.totalPrice);
 
                 var products = orderData.products;

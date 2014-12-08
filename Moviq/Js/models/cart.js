@@ -1,7 +1,7 @@
 /*jslint plusplus: true*/
 /*global define*/
 define('models/cart', {
-    init: function (ko, viewEngine, CartItem) {
+    init: function (ko, routes, viewEngine, CartItem) {
         "use strict";
 
         if (!ko) {
@@ -52,29 +52,6 @@ define('models/cart', {
                 }
             };
 
-            //$this.setCartItem = function (cartItem) {
-            //    if (!cartItem) {
-            //        throw new Error('Argument Exception: the argument, cartItem, must be defined to set a cartItem');
-            //    }
-
-            //    if (!(cartItem instanceof CartItem)) {
-            //        cartItem = new CartItem(cartItem);
-            //    }
-
-            //    cartItem.setCart(this);
-            //};
-
-            //$this.setCart = function (cart) {
-            //    if (!cart) {
-            //        throw new Error('Argument Exception: the argument, cart, must be defined to set cart');
-            //    }
-            //    var i = 0;
-
-            //    for (i; i < cart.length; i++) {
-            //        $this.setCartItem(cart[i],cart);
-            //    }
-            //}
-
             if (cart) {
                 $this.addCart(cart);
                 $this.total = ko.computed(function () {
@@ -104,43 +81,8 @@ define('models/cart', {
 
             }
 
-            //$this.removeCartItem = function (cartItem) {
-            //    if (!cartItem) {
-            //        throw new Error('Argument Exception: the argument, cartItem, must be defined to remove a');
-            //    }
-            //    if (!(cartItem instanceof CartItem)) {
-            //        cartItem = new CartItem(cartItem);
-            //    }
-
-            //    $this.cart.remove(cartItem);
-            //}
             $this.removeTest = function (uid) {
-                console.log("removeTest!");
-                // var uid = child.uid();
-                console.log("removeTest:" + uid);
-
-                $.ajax({
-                    url: '/api/cart/remove/?q=' + uid,
-                    method: 'GET'
-                }).done(function (data) {
-                    if (data.charAt(0) != '<') {
-                        cart = $this.cart();
-
-                        var i = 0;
-
-                        for (i; i < cart.length; i++) {
-                            console.log(cart[i].uid);
-                            if (cart[i].uid() == uid) {
-                                $this.cart.remove(cart[i]);
-                            }
-                        }
-                        console.log("cart length" + cart.length);
-                        viewEngine.headerVw.subtractFromCart();
-                    } else {
-                        alert("delete failed!");
-                    }
-                });
-
+                routes.navigate("/removeItem/?q="+uid);
             }
         };
 

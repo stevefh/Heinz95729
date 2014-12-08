@@ -2,18 +2,23 @@
     <h3>Order History</h3>
     <br />
     <div class="cart-component" data-bind="foreach: { data: data.orders(), as: 'order' }">
-        <div>
-            <h4>Order Date:<span data-bind="text:orderDate()"></span></h4>
-            <table class="table table-condensed">
-                <tbody data-bind="foreach: { data: order.products(), as: 'product' }">
-                    <tr data-bind="value: product.uid">
-                        <td><h5 data-bind="text: product.title"></h5></td>
-                        <td><h5 data-bind="text: product.price"></h5></td>
-                    </tr>
-                </tbody>
-            </table>
-            <h6>Total: $<span id="order-total" data-bind="text: order.totalPrice()"></span></h6>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Order Time: <span data-bind="text:orderDate()"></span></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed">
+                    <tbody data-bind="foreach: { data: order.products(), as: 'product' }">
+                        <tr data-bind="value: product.uid">
+                            <td><h5 data-bind="text: product.title"></h5></td>
+                            <td><h5 data-bind="text: product.price"></h5></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <h5>Total: $<span id="order-total" data-bind="text: order.totalPrice()"></span></h5>
+            </div> 
         </div>
         <br />
-    </div>
 </script>

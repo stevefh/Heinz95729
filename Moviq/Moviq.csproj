@@ -138,6 +138,7 @@
     <Content Include="Js\controllers\cartController.js" />
     <Content Include="Js\controllers\homeController.js" />
     <Content Include="Js\controllers\cartController.js" />
+    <Content Include="Js\controllers\paymentController.js" />
     <Content Include="Js\controllers\profileController.js" />
     <Content Include="Js\lib\grid.js" />
     <Content Include="Js\lib\ko.binders.js" />

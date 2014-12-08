@@ -1,74 +1,84 @@
 ﻿
 <script id="t-payment-info" type="text/html">
-
-    <h3>Order Summary</h3>
-    <table class="table table-condensed">
-        <tbody data-bind="foreach: { data: data.cart(), as: 'cartItem' }">
-            <tr data-bind="value: cartItem.uid">
-                <td><h5 data-bind="text: cartItem.title"></h5></td>
-                <td><h5 data-bind="text: cartItem.price"></h5></td>
-            </tr>
-        </tbody>
-    </table>
-    <h4>Total: $<span id="order-total" data-bind="text: data.total(),value:data.total()"></span></h4>
-    <form action="/#/create-order-test" method="post" id="test-create-order-form">
-        <input type="hidden" name="orderData" data-bind="value:data.cartData()" />
-        <input type="submit" value="test create order" class="btn btn-success" />
-    </form>
     <br />
     <br />
-    <h1></h1>
-    <form action="/#/confirm" method="post" role="form" id="payment-form" data-toggle="validator">
-        <div class="form-group col-lg-12">
-            <label for="number">Card Number</label>
-            <input type="text" class="form-control col-sm-12 col-lg-12" size="20" id="number" />
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title">Order Summary</h3>
         </div>
-        <div class="form-group">
-            <div class="form-group col-lg-4">
-                <label for="cvc">CVC</label>
-                <input type="text" class="form-control form-inline" maxlength="3" id="cvc" data-error="3 digits required" required />
-                <div class="help-block with-errors"></div>
-            </div>
-            
-            <div class="form-group col-lg-4">
-                <label for="exp-year" class="control-label">Expiration (MM)</label>
-                <select class="form-control" id="exp-month">
-                    <option>01</option>
-                    <option>02</option>
-                    <option>03</option>
-                    <option>04</option>
-                    <option>05</option>
-                    <option>06</option>
-                    <option>07</option>
-                    <option>08</option>
-                    <option>09</option>
-                    <option>10</option>
-                    <option>11</option>
-                    <option>12</option>
-                </select>
-            </div>
-            <div class="form-group col-lg-4">
-                <label for="exp-year" class="control-label">Expiration (YYYY)</label>
-                <select class="form-control" id="exp-year">
-                    <option>2014</option>
-                    <option>2015</option>
-                    <option>2016</option>
-                    <option>2017</option>
-                    <option>2018</option>
-                    <option>2019</option>
-                    <option>2020</option>
-                    <option>2021</option>
-                    <option>2022</option>
-                    <option>2023</option>
-                    <option>2024</option>
-                    <option>2025</option>
-                </select>
-            </div>
-           
+        <div class="panel-body">
+            <table class="table table-condensed">
+                <tbody data-bind="foreach: { data: data.cart(), as: 'cartItem' }">
+                    <tr data-bind="value: cartItem.uid">
+                        <td><h5 data-bind="text: cartItem.title"></h5></td>
+                        <td><h5 data-bind="text: cartItem.price"></h5></td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="hidden" id="orderData" data-bind="value:data.cartData()" />
         </div>
-        <div class="form-group col-lg-12">
-            <button class="btn btn-success" type="submit">Checkout</button>
+        <div class="panel-footer">
+            <h4>Total: $<span id="order-total" data-bind="text: data.total(),value:data.total()"></span></h4>
         </div>
-    </form>
+    </div>
+    <br />
+    <br />
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Payment Information</h3>
+        </div>
+        <div class="panel-body">
+            <form action="/#/confirm" method="post" role="form" id="payment-form" data-toggle="validator">
+                <div class="form-group col-lg-12">
+                    <label for="number">Card Number</label>
+                    <input type="text" class="form-control col-sm-12 col-lg-12" size="20" id="number" />
+                </div>
+                <div class="form-group">
+                    <div class="form-group col-lg-4">
+                        <label for="cvc">CVC</label>
+                        <input type="text" class="form-control form-inline" maxlength="3" id="cvc" data-error="3 digits required" required />
+                        <div class="help-block with-errors"></div>
+                    </div>
 
+                    <div class="form-group col-lg-4">
+                        <label for="exp-year" class="control-label">Expiration (MM)</label>
+                        <select class="form-control" id="exp-month">
+                            <option>01</option>
+                            <option>02</option>
+                            <option>03</option>
+                            <option>04</option>
+                            <option>05</option>
+                            <option>06</option>
+                            <option>07</option>
+                            <option>08</option>
+                            <option>09</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="exp-year" class="control-label">Expiration (YYYY)</label>
+                        <select class="form-control" id="exp-year">
+                            <option>2015</option>
+                            <option>2016</option>
+                            <option>2017</option>
+                            <option>2018</option>
+                            <option>2019</option>
+                            <option>2020</option>
+                            <option>2021</option>
+                            <option>2022</option>
+                            <option>2023</option>
+                            <option>2024</option>
+                            <option>2025</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group col-lg-12">
+                    <button class="btn btn-success" type="submit">Checkout</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </script>

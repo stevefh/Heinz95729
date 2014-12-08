@@ -5,14 +5,16 @@
 /*globals require, define*/
 require(['routeEngine', 'views/viewEngine', 'config', 'utils',
          'controllers/homeController', 'controllers/booksController',
-         'controllers/authController', 'controllers/profileController', 'controllers/cartController',
+         'controllers/authController', 'controllers/profileController',
+         'controllers/cartController', 'controllers/paymentController',
          'models/product', 'models/products', 'models/book', 'models/books',
          'models/cart', 'models/cartItem', 'models/order', 'models/orders',
          'views/headerVw',
          'jquery', 'ko', 'lib/ko.binders', 'sammy'],
         function (routeEngineCtor, viewEngineCtor, configCtor, utilsCtor,
                    homeControllerCtor, booksControllerCtor,
-                   authControllerCtor, profileControllerCtor, cartControllerCtor,
+                   authControllerCtor, profileControllerCtor,
+                   cartControllerCtor, paymentControllerCtor,
                    ProductCtor, ProductsCtor, BookCtor, BooksCtor, CartCtor, CartItemCtor,
                    OrderCtor, OrdersCtor,
                    headerVwCtor,
@@ -35,7 +37,8 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
             booksController,
             authController,
             profileController,
-            cartController;
+            cartController,
+            paymentController;
             
         // initialize ko binding extensions
         koBinders.init($, ko);
@@ -59,7 +62,7 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
             Book = BookCtor.init(ko, Product);
             Books = BooksCtor.init(ko, Book);
             CartItem = CartItemCtor.init(ko);
-            Cart = CartCtor.init(ko, viewEngine, CartItem);
+            Cart = CartCtor.init(ko, routeEngine, viewEngine, CartItem);
             Order = OrderCtor.init(ko, Products);
             Orders = OrdersCtor.init(ko, Order);
         }());
@@ -71,7 +74,8 @@ require(['routeEngine', 'views/viewEngine', 'config', 'utils',
             homeController = homeControllerCtor.init(routeEngine, viewEngine, Products, Product, Cart, Orders);
             authController = authControllerCtor.init($, routeEngine, viewEngine);
             profileController = profileControllerCtor.init($, routeEngine, viewEngine);
-            cartController = cartControllerCtor.init($, routeEngine, viewEngine,Cart);
+            cartController = cartControllerCtor.init($, routeEngine, viewEngine, Cart);
+            paymentController = paymentControllerCtor.init($, routeEngine, viewEngine, Orders);
         }());
         //endregion CONTROLLERS
             

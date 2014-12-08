@@ -20,12 +20,12 @@ namespace Moviq.Api
             {
                 this.RequiresAuthentication();
 
-                var uid = (string)this.Request.Form.uid;
+                var uid = this.Request.Query.q;
                 ICustomClaimsIdentity currentUser = AmbientContext.CurrentClaimsPrinciple.ClaimsIdentity;
                 string guid = currentUser.GetAttribute(AmbientContext.UserPrincipalGuidAttributeKey).ToString();
                 carts.Repo.AddToCart(guid, uid);
 
-                return Response.AsRedirect("/#/cart");
+                return true;
             }; 
 
             this.Get["/api/cart"] = args =>
@@ -64,7 +64,7 @@ namespace Moviq.Api
                 return helper.ToJson(cartInfo);
             };
 
-            this.Get["/api/cart/remove"] = args =>
+            this.Post["/api/cart/remove"] = args =>
             {
                 this.RequiresAuthentication();
 
@@ -99,7 +99,7 @@ namespace Moviq.Api
                     unavailableTitles = unavailableTitles
                 };
 
-                return helper.ToJson(cartInfo);
+                return true;
             };
 
             
