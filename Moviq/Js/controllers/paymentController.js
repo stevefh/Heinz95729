@@ -8,10 +8,13 @@ define('controllers/paymentController', {
         Stripe.setPublishableKey('pk_test_XTCnCpSPjzYL6y7xtp6jEcBg');
 
         //------------------------------------------------
+
+        // handle routes to the payment page
         routes.post(/^\/#\/confirm/, function (context) {
             onConfirm(context);
         });
 
+        // callback method of stripe handling the stripe repsonse
         var stripeResponseHandler = function (status, response) {
             console.log(status);
             if (response.error) {
@@ -25,6 +28,7 @@ define('controllers/paymentController', {
             }
         };
 
+        // send request to back end after token is created
         onTokenCreate = function (token) {
             console.log("token:"+token);
             return $.ajax({
@@ -57,13 +61,12 @@ define('controllers/paymentController', {
                 }
                 else {
                     alert("Payment Declined");
-                    viewEngine.setView({
-                        template: 't-empty'
-                    })
+                    routes.navigate("/cart");
                 }
             });
         };
 
+        // handles the request to pay by card and generates token
         onConfirm = function (context) {
             console.log($('#exp-month').val());
             Stripe.card.createToken({

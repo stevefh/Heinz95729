@@ -19,26 +19,33 @@ define('controllers/homeController', {
             });
         });
 
+        // handle routes to cart page
         routes.get(/^\/#\/cart/, function (context) {
             onCart(context);
         });
 
+        // handle routes to order page
         routes.get(/^\/#\/orders/, function (context) {
             onOrders(context);
         });
 
+        // process request to display orders
         onOrders = function (context) {
             return $.ajax({
                 url: '/api/order',
                 method: 'GET'
             }).done(function (data) {
+
+                // if the authentication is done
                 if (data.charAt(0) != '<') {
                     var results = new Orders(JSON.parse(data));
                     viewEngine.setView({
                         template: 't-order-grid',
                         data: results
                     });
-                } else {
+                }
+                // if the back end asks for authentication, where the authentication html page is returned
+                else {
                     viewEngine.setView({
                         template: 't-login'
                     });
@@ -67,21 +74,24 @@ define('controllers/homeController', {
             });
         };
 
-
+        // process request to display the cart
         onCart = function (context) {
             return $.ajax({
                 url: '/api/cart',
                 method: 'GET'
             }).done(function (data) {
+
+                // if the authentication is done
                 if (data.charAt(0) != '<') {
                     var results = new Cart(JSON.parse(data));
-                    //cart = results;
                     viewEngine.setView({
                         template: 't-cart-grid',
                         data: results
                     });
                     viewEngine.headerVw.cartCount(results.cart().length);
-                } else {
+                }
+                // if the back end asks for authentication, where the authentication html page is returned
+                else {
                     viewEngine.setView({
                         template: 't-login'
                     });

@@ -1,5 +1,6 @@
 ﻿/*jslint nomen: true*/
 /*global define*/
+/*Modified from code structure provided by Andy Wright*/
 define('models/order', {
     init: function (ko,Products) {
         "use strict";

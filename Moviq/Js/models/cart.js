@@ -1,5 +1,6 @@
 /*jslint plusplus: true*/
 /*global define*/
+/*Modified from code structure provided by Andy Wright*/
 define('models/cart', {
     init: function (ko, routes, viewEngine, CartItem) {
         "use strict";
